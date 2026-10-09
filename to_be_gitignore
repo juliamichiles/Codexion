@@ -1,0 +1,6 @@
+docs/
+unused/
+practice/
+*.swp
+to_do.md
+to_be_gitignore
