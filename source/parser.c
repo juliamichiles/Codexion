@@ -1,6 +1,6 @@
 #include "codexion.h"
 
-// Caller must pass av+1 and ac-1
+// Caller must pass av+1
 int	parse_numbers(char *arg)
 {
 	// add some other safeguard against accessing out of bound memory?
@@ -45,27 +45,37 @@ int	parse_scheduler(char *arg)
 	return (0);
 }
 
-int	validate_info(t_args *info)
+int	print_error(char *type, char *culprit)
+{
+	fprintf(stderr, "Invalid argument '%s': %s\n", type, culprit);
+	return (0);
+}
+
+
+int	validate_info(t_args *info, char *args[])
 {
 	// return 1 on success or 0 on failure
-	// I decided not to accept 0, so change here in case we decide to accept it
+	// accepts 0, except for number_of_coders
+	int	valid;
+	
+	valid = 1;
 	if (info->number_of_coders < 1)
-		return 0;
+		valid = print_error("number of coders", args[0]);
 	if (info->time_to_burnout < 0)
-                return 0;
+                valid = print_error("time to burnout", args[1]);
 	if (info->time_to_compile < 0)
-		return 0;
+		valid = print_error("time to compile", args[2]);
 	if (info->time_to_debug < 0)
-                return 0;
+                valid = print_error("time to time_to_debug", args[3]);
 	if (info->time_to_refactor < 0)
-                return 0;
+                valid = print_error("time to refactor", args[4]);
 	if (info->number_of_compiles < 0)
-                return 0;
+                valid = print_error("number of compiles required", args[5]);
 	if (info->dongle_cooldown < 0)
-                return 0;
+                valid = print_error("dongle_cooldown", args[6]);
 	if (info->scheduler < 1)
-                return 0;
-	return (1);
+                valid = print_error("scheduler", args[7]);
+	return (valid);
 }
 
 t_args	*parse_args(char *args[])
@@ -76,14 +86,14 @@ t_args	*parse_args(char *args[])
 	if (!info)
 		return NULL;
 	info->number_of_coders = parse_numbers(args[0]);
-	info->time_to_compile = parse_numbers(args[1]);
-	info->time_to_burnout = parse_numbers(args[2]);
+	info->time_to_burnout = parse_numbers(args[1]);
+	info->time_to_compile = parse_numbers(args[2]);
 	info->time_to_debug = parse_numbers(args[3]);
 	info->time_to_refactor = parse_numbers(args[4]);
 	info->number_of_compiles = parse_numbers(args[5]);
 	info->dongle_cooldown = parse_numbers(args[6]);
 	info->scheduler = parse_scheduler(args[7]);
-	if (!validate_info(info))
+	if (!validate_info(info, args))
 	{
 		free(info);
 		return NULL;

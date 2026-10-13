@@ -4,6 +4,7 @@
 - [ ] add safeguard for any arg being NULL (I think empty strings are ok)
 
 ## General:
+- [ ] split header file in two
 - [ ] ADD HEADERS!
 - [ ] Norminette
 - [ ] Makefile - ADD -pthread flag!!

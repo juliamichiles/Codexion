@@ -2,5 +2,6 @@
 06.10 - 3h17 reading/watching videos abt new concepts (threads, mutex, etc.)
 07.10 - 2h05 reading/watching videos abt new concepts (deadlocks, philosophers problem, condition variables, etc.)
 08.10 - 4h23 taking notes on important concepts + project's rules
-08.10 - 6h07 finished notes(1 hr) + structuring project + Makefile + parser + tests
-
+09.10 - 6h07 finished notes(1 hr) + structuring project + Makefile + parser + tests
+11.10 - 3h00 refactored parser + more tests 
+12.10 - 3h10 added thread-related helpers + studying/research
