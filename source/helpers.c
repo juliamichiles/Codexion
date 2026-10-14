@@ -1,8 +1,10 @@
-#include "codexion.c"
+#include "codexion.h"
 
 // TODO: Add error hanlers using errno?
+// TODO: Add helpers to allocate memory for dongles and coders and handle failure
+// freeing memory if malloc fails
 
-void	handle_mutex(pthread_mutex_t *mutex, t_op code)
+void	handle_mutex(t_mtx *mutex, t_op code)
 {
 	if (code == LOCK)
 		pthread_mutex_lock(mutex);

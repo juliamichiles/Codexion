@@ -14,7 +14,7 @@ int	ft_isnum(char c)
 	return (0);
 }
 
-void	handle_mutex(pthread_mutex_t *mutex, t_op code)
+void	handle_mutex(t_mtx *mutex, t_op code)
 {
 	if (code == LOCK)
 		pthread_mutex_lock(mutex);
