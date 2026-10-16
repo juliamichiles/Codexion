@@ -1,10 +1,12 @@
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
+#include <pthread.h>
+#include <stdbool.h>
+
 typedef pthread_mutex_t t_mtx;
 
 // Structures:
-
 typedef struct s_args
 {
 	int	number_of_coders;

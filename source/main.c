@@ -18,10 +18,10 @@ int	main(int ac, char *av[])
 
 	if (ac != 9)
 	{
-		fprintf(stderr,
+		p_error(
 			"Usage: ./codexion number_of_coders time_to_burnout "
 			"time_to_compile time_to_debug time_to_refactor "
-			"number_of_compiles_required dongle_cooldown scheduler\n");
+			"number_of_compiles_required dongle_cooldown scheduler");
 		return (1);
 	}
 	info = parse_args(av + 1);

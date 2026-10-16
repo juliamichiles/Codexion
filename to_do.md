@@ -1,3 +1,7 @@
+## init + wrappers:
+- [ ] review wrappers.c
+- [ ] init.c is not complete + has typos
+
 ## Parser:
 - [ ] test thoroughly
 - [ ] accept trailing  wtspcs for fifo and edf 

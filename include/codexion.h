@@ -1,16 +1,17 @@
 #ifndef CODEXION_H
 # define CODEXION_H
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
-#include "codexion.h"
+#include <errno.h>
+#include "structures.h"
 
 // Utilitary:
 int	ft_isspace(char c);
 int	ft_isnum(char c);
+void	p_error(char *message);
 
 // Thread-related helpers:
 void    handle_mutex(t_mtx *mutex, t_op code);

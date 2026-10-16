@@ -14,8 +14,14 @@ int	ft_isnum(char c)
 	return (0);
 }
 
+void	p_error(char *message)
+{
+	fprintf(stderr, "%s\n", message);
+}
+
 void	handle_mutex(t_mtx *mutex, t_op code)
 {
+	// REMOVE THIS!!!
 	if (code == LOCK)
 		pthread_mutex_lock(mutex);
 	else if (code == UNLOCK)
@@ -25,5 +31,5 @@ void	handle_mutex(t_mtx *mutex, t_op code)
 	else if (code == DESTROY)
 		pthread_mutex_destroy(mutex);
 	else
-		fprintf(stderr, "Invalid operation code for mutex.\n")
+		p_error("Invalid operation code for mutex.")
 }

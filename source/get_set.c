@@ -1,6 +1,7 @@
 #include "codexion.h"
 
 //FIXME: Not sure those types actually match our current data structures
+// Might need to typecast int into long longs to use these
 bool	get_bool(t_mtx *mutex, bool *value)
 {
 	bool	ret;
@@ -18,9 +19,9 @@ void	set_bool(t_mtx *mutex, bool *dest, bool value)
 	handle_mutex(mutex, UNLOCK);
 }
 
-long	get_long(t_mtx *mutex, long *value)
+long long	get_long(t_mtx *mutex, long long *value)
 {
-	long	ret;
+	long long	ret;
 
 	handle_mutex(mutex, LOCK);
 	ret = *value;
@@ -28,7 +29,7 @@ long	get_long(t_mtx *mutex, long *value)
 	return (ret);
 }
 
-void	set_long(t_mtx *mutex, long *dest, long value)
+void	set_long(t_mtx *mutex, long long *dest, long long value)
 {
 	handle_mutex(mutex, LOCK);
 	*dest = value;

@@ -45,9 +45,10 @@ int	parse_scheduler(char *arg)
 	return (0);
 }
 
-int	print_error(char *type, char *culprit)
+static int	print_error(char *type, char *culprit)
 {
-	fprintf(stderr, "Invalid argument '%s': %s\n", type, culprit);
+	//maybe change this bc we also have p_error...
+	p_error("Invalid argument '%s': %s", type, culprit);
 	return (0);
 }
 
