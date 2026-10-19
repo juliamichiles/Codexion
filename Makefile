@@ -4,7 +4,10 @@ CFLAGS      := -Wall -Wextra -Werror
 INC         := -I include
 SRCS        := source/main.c \
                source/parser.c \
-               source/utils.c
+               source/utils.c \
+	       source/init.c \
+	       source/wrappers.c \
+	       source/simulation.c
 
 OBJS        := $(SRCS:.c=.o)
 

@@ -1,6 +1,12 @@
+## Simulation:
+- [ ] Maybe modify destroy simulation to take a double ptr and also handle
+    freeing the simulation ptr and setting it to NULL?
+- [ ] write a function to handle memory allocation (what is currently being done 
+    in main.c)
+
 ## init + wrappers:
-- [ ] review wrappers.c
-- [ ] init.c is not complete + has typos
+- [ ] further test it? Buuut I think it's right
+- [ ] norm 
 
 ## Parser:
 - [ ] test thoroughly
@@ -24,6 +30,14 @@
 - How do I avoid burnouts on FIFO? Or I just don't?
 - Not really a question, but I think argc must be 9, and passing all arguments as one should not be accepted
 - I think obviously args must be in the same order, otherwise, how can I even know which is which...
+
+## Fixed:
+- [X] dongles_cleanup only sets th local copy of the ptr to NULL, fix it 
+    - Maybe pass a double ptr? Or accept we'll have to do that oustide the func.
+    - also I liked dongle_cleanup without the S better...
+- [X] review wrappers.c
+- [X] init.c is not complete + has typos
+- [X] update .h file (some func. signatures changed, others aren't there yet)
 
 ## Notes on:
 

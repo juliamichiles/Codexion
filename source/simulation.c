@@ -1,18 +1,47 @@
 #include "codexion.h"
 
-// - Copy the parsed arguments into sim->args.
-// - Allocate the array of coders and the array of dongles.
-// - Initialize the shared mutexes and condition variable.
-// - Initialize each coder and dongle.
-// - Connect each coder to its left and right dongles in a circle.
-
 int	init_simulation(t_simulation *sim, const t_args *args)
 {
 	if (!sim || !args)
-		return (0);
+		return (1);
+	sim->coders = NULL; //bc defensive programming
+	sim->dongles = NULL; //unnecessary in my opinion...
+	sim->stopped = 0;
+        sim->finished_coders = 0;
 	sim->args = *args;
-	
+	sim->dongles = init_dongles(args->number_of_coders);
+	if (!sim->dongles)
+		return (1);
+	sim->coders = init_coders(sim, args->number_of_coders);
+	if (!sim->coders)
+	{
+		dongle_cleanup(&sim->dongles, args->number_of_coders);
+		return (1);
+	}
+	assign_dongles(sim);
+	if (init_sim_mutexes(sim) != 0)
+	{
+		free(sim->coders);
+		sim->coders = NULL;
+		dongle_cleanup(&sim->dongles, args->number_of_coders);
+		return (1);
+	}
+	return (0);
 }
 
 int	destroy_simulation(t_simulation *sim)
-{}
+{
+	// NOTE: Only to be called if init_simulation succeds
+	if (!sim)
+		return (1);
+	free(sim->coders);
+	sim->coders = NULL;
+	dongle_cleanup(&sim->dongles, sim->args.number_of_coders);
+	handle_mutex(&sim->log_mutex, DESTROY);
+        handle_mutex(&sim->state_mutex, DESTROY);
+        handle_mutex(&sim->scheduler_mutex, DESTROY);
+	pthread_cond_destroy(&sim->scheduler_cond);
+	// Should also free the simulation itself and set ptr to NULL?
+	// If so *sim must become a double ptr
+	return (0);
+}

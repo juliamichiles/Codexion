@@ -1,0 +1,62 @@
+=== SIMULATION ===
+[ARGS]
+number_of_coders: 5
+time_to_burnout: 2000
+time_to_compile: 30
+time_to_debug: 400
+time_to_refactor: 50
+number_of_compiles: 6
+dongle_cooldown: 7
+scheduler: 1
+
+[DONGLES]
+| Dongle 1 - avaliable at 0 ms |
+| Dongle 2 - avaliable at 0 ms |
+| Dongle 3 - avaliable at 0 ms |
+| Dongle 4 - avaliable at 0 ms |
+| Dongle 5 - avaliable at 0 ms |
+
+[CODERS]
+---
+[Coder 1]
+ Current State: 0
+ Left dongle's id: 1
+ Right dongle's id: 2
+ Last compile at: -1 ms
+ Compile count: 0
+ Simulation addr.: 0x5f7a219eb2d0
+---
+[Coder 2]
+ Current State: 0
+ Left dongle's id: 2
+ Right dongle's id: 3
+ Last compile at: -1 ms
+ Compile count: 0
+ Simulation addr.: 0x5f7a219eb2d0
+---
+[Coder 3]
+ Current State: 0
+ Left dongle's id: 3
+ Right dongle's id: 4
+ Last compile at: -1 ms
+ Compile count: 0
+ Simulation addr.: 0x5f7a219eb2d0
+---
+[Coder 4]
+ Current State: 0
+ Left dongle's id: 4
+ Right dongle's id: 5
+ Last compile at: -1 ms
+ Compile count: 0
+ Simulation addr.: 0x5f7a219eb2d0
+---
+[Coder 5]
+ Current State: 0
+ Left dongle's id: 5
+ Right dongle's id: 1
+ Last compile at: -1 ms
+ Compile count: 0
+ Simulation addr.: 0x5f7a219eb2d0
+
+[Simulation stopped: NO]
+[Finished coders so far: 0]

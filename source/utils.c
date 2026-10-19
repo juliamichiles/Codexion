@@ -18,18 +18,3 @@ void	p_error(char *message)
 {
 	fprintf(stderr, "%s\n", message);
 }
-
-void	handle_mutex(t_mtx *mutex, t_op code)
-{
-	// REMOVE THIS!!!
-	if (code == LOCK)
-		pthread_mutex_lock(mutex);
-	else if (code == UNLOCK)
-		pthread_mutex_unlock(mutex);
-	else if (code == INIT)
-		pthread_mutex_init(mutex, NULL);
-	else if (code == DESTROY)
-		pthread_mutex_destroy(mutex);
-	else
-		p_error("Invalid operation code for mutex.")
-}

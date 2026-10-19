@@ -1,3 +1,4 @@
+
 #include "codexion.h"
 
 // - Copy the parsed arguments into sim->args.
@@ -9,7 +10,7 @@
 t_dongle *init_dongles(int n_coders)
 {
 	int		i;
-	t_dongle	dongles;
+	t_dongle	*dongles;
 
 	i = 0;
 	dongles = malloc(n_coders * sizeof(t_dongle));
@@ -20,15 +21,29 @@ t_dongle *init_dongles(int n_coders)
 	}
 	while (i < n_coders)
 	{
-		dongles[i] = init_dongle(); // TODO
-		if (!dongles)
-			// Do we really need this?
-                        // If the new function allocs. mem. check for NULL
-                        // free previous coders and the whole thing than
-                        // return NULL
+		dongles[i].id = i + 1;
+		dongles[i].avaliable_at_ms = 0;
+		if (handle_mutex(&dongles[i].mutex, INIT) != 0)
+		{
+			dongle_cleanup(&dongles, i);
+			p_error("Failed to initialize dongle mutex.");
+			return (NULL);
+		}
 		i++;
 	}
 	return (dongles);
+}
+
+static void	init_coder(t_simulation *sim, t_coder *coder, int index)
+{
+	// FYI: Doesn't init thread
+	coder->id = index + 1;
+	coder->state = WAITING_FOR_DONGLES;
+	coder->left_dongle = NULL; // for now, assign them later once all
+	coder->right_dongle = NULL; // coders and dongles are initialized
+	coder->last_compile_start = -1;
+	coder->compile_count = 0;
+	coder->sim = sim;
 }
 
 t_coder	*init_coders(t_simulation *sim, int n_coders)
@@ -39,52 +54,63 @@ t_coder	*init_coders(t_simulation *sim, int n_coders)
 	i = 0;
 	coders = malloc(n_coders * sizeof(t_coder));
 	if (!coders)
+	{
 		//FIXME: Write a better error message
 		p_error("Coders memory allocation failled.");
 		return (NULL);
 	}
 	while (i < n_coders)
 	{
-		coders[i] = init_coder(); // TODO
-		if (!coders[i])
-			// Do we really need this?
-			// If the new function allocs. mem. check for NULL
-			// free previous coders and the whole thing than
-			// return NULL
+		init_coder(sim, &coders[i], i);
 		i++;
 	}
 	return (coders);
 }
 
-void	init_simulation(t_simulation *sim, const t_args *args)
+void	assign_dongles(t_simulation *sim)
 {
-	// TODO: maybe change return type so we can flag errors to caller
-	if (!sim || !args)
-		return;
-	sim->args = *args;
-	sim->coders = init_coders(args->number_of_coders, sim);
-	if (!sim->coders)
-		return;
-	sim->dongles = init_dongles(args->number_of_coders);
-	if (!sim->dongles)
+	int	i;
+	int	n;
+
+	i = 0;
+	n = sim->args.number_of_coders;
+	if (n == 1)
 	{
-		free(sim->coders) //Right?
+		// FIXME: NOT SURE this FULLY handles the 1 coder edge case
+		// Maybe there's something else to do??
+		sim->coders[i].left_dongle = &sim->dongles[i];
+		sim->coders[i].right_dongle = &sim->dongles[i];
 		return;
 	}
-	sim->monitor_thread = // TODO
-	sim->log_mutex = // TODO
-	sim->log_mutex = // TODO
-	sim->scheduler = //TODO
-	sim->stopped = 0;
-	sim->finished_coders = 0;
+	while (i < n)
+	{
+		sim->coders[i].left_dongle = &sim->dongles[i];
+		sim->coders[i].right_dongle = &sim->dongles[(i + 1) % n];
+		i++;
+	}
 }
 
-int	destroy_simulation(t_simulation *sim)
+int	init_sim_mutexes(t_simulation *sim)
 {
-	int	id;
-	
-	id = 0;
-	while (id < sim->number_of_coders)
-		//cleanup
-		id++;
+	if (handle_mutex(&sim->log_mutex, INIT) != 0)
+		return (1);
+	if (handle_mutex(&sim->state_mutex, INIT) != 0)
+	{
+		handle_mutex(&sim->log_mutex, DESTROY);
+		return (1);
+	}
+	if (handle_mutex(&sim->scheduler_mutex, INIT) != 0)
+	{	
+		handle_mutex(&sim->log_mutex, DESTROY);
+		handle_mutex(&sim->state_mutex, DESTROY);
+		return (1);
+	}
+	if (pthread_cond_init(&sim->scheduler_cond, NULL) != 0)
+	{
+		handle_mutex(&sim->scheduler_mutex, DESTROY);
+        	handle_mutex(&sim->state_mutex, DESTROY);
+        	handle_mutex(&sim->log_mutex, DESTROY);
+        	return (1);
+	}
+	return (0);
 }
