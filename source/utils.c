@@ -18,3 +18,21 @@ void	p_error(char *message)
 {
 	fprintf(stderr, "%s\n", message);
 }
+
+long long	get_current_time(void)
+{
+	struct timeval	tv;
+	// that's ok with the norm right?
+	
+	if (gettimeofday(&tv, NULL))
+	{
+		p_error("gettimeofday failed.");
+		return (-1); // or 0??
+	}
+	return ((tv.tv_ssec * 1000LL) + (tv.tv_usec / 1000LL));
+}
+
+long long get_elapsed_time(long long start_time)
+{
+	return (get_current_time() - start_time);
+}

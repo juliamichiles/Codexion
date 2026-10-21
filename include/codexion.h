@@ -6,12 +6,18 @@
 #include <limits.h>
 #include <stdio.h>
 #include <errno.h>
+#include <sys/time.h>
 #include "structures.h"
+
+// TODO: Write a long long alias
 
 // Utilitary:
 int	ft_isspace(char c);
 int	ft_isnum(char c);
 void	p_error(char *message);
+long long       get_current_time(void);
+long long	get_elapsed_time(long long start_time);
+
 
 // Thread-related helpers:
 int	handle_mutex(t_mtx *mutex, t_op code);

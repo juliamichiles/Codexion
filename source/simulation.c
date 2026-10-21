@@ -9,6 +9,8 @@ int	init_simulation(t_simulation *sim, const t_args *args)
 	sim->stopped = 0;
         sim->finished_coders = 0;
 	sim->args = *args;
+	sim->start_time_ms = get_current_time(); // not sure that's the right place
+						 // I think it doesn't matter
 	sim->dongles = init_dongles(args->number_of_coders);
 	if (!sim->dongles)
 		return (1);
@@ -44,4 +46,16 @@ int	destroy_simulation(t_simulation *sim)
 	// Should also free the simulation itself and set ptr to NULL?
 	// If so *sim must become a double ptr
 	return (0);
+}
+
+int	simulation(t_simulation *sim)
+{
+	int	i;
+
+	i = 0;
+	// FIXME: check for number_of_compiles == 0?
+	// or other stuff that can't be 0, but maybe stop that at parser already
+	if (sim->number_of_coders == 1)
+		; // TODO: Idk how we're supposed to handle that...
+	
 }

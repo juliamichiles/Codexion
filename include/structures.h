@@ -70,6 +70,7 @@ struct	s_simulation
 	t_dongle	*dongles;
 
 	pthread_t	monitor_thread;
+	long long	start_time_ms;
 
 	t_mtx		log_mutex;
 	t_mtx 		state_mutex;

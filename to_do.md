@@ -14,6 +14,7 @@
 - [ ] add safeguard for any arg being NULL (I think empty strings are ok)
 
 ## General:
+- [ ] write an alias for long long, like llong or something
 - [ ] split header file in two
 - [ ] ADD HEADERS!
 - [ ] Norminette
