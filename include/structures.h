@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 typedef pthread_mutex_t t_mtx;
+typedef long long	llong;
 
 // Structures:
 typedef struct s_args
@@ -33,9 +34,11 @@ typedef enum	e_op
 typedef enum	e_coder_state
 {
 		WAITING_FOR_DONGLES,
+		TAKEN_DONGLE,
 		COMPILING,
 		DEBUGGING,
 		REFACTORING,
+		BURNED_OUT,
 		CODER_DONE
 }		t_coder_state;
 
@@ -45,7 +48,7 @@ typedef struct		s_dongle
 {
 	int		id;
 	t_mtx 		mutex;
-	long long	avaliable_at_ms;
+	llong		avaliable_at_ms;
 }			t_dongle;
 
 typedef struct	s_coder
@@ -57,7 +60,7 @@ typedef struct	s_coder
 	t_dongle	*left_dongle;
 	t_dongle	*right_dongle;
 
-	long long	last_compile_start;
+	llong		last_compile_start;
 	int		compile_count;
 
 	t_simulation	*sim;
@@ -70,15 +73,30 @@ struct	s_simulation
 	t_dongle	*dongles;
 
 	pthread_t	monitor_thread;
-	long long	start_time_ms;
+	llong		start_time_ms;
 
-	t_mtx		log_mutex;
-	t_mtx 		state_mutex;
-	t_mtx 		scheduler_mutex;
+	t_mtx		    log_mutex;
+	t_mtx 		    state_mutex;
+	t_mtx 		    scheduler_mutex;
 	pthread_cond_t	scheduler_cond;
 
 	int		stopped;
 	int		finished_coders;
 };
 
+typedef struct	s_node
+{
+	int	    coder_id;
+	llong	arrival_time;
+	llong	deadline;
+}		    t_node;
+
+typedef struct	s_heap
+{
+	t_node	*nodes;
+	int	    capacity; // total max capacity allocated
+	int	    size; // current size/occupation
+	int 	policy; // 1 FIFO / 2 EDF
+
+}           t_heap;
 #endif

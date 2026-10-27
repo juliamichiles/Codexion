@@ -62,6 +62,7 @@ void	print_simulation(t_simulation *sim)
 		printf("[Simulation stopped: YES]\n");
 	else
 		printf("[Simulation stopped: NO]\n");
+	printf("[Start time: %lld]\n", sim->start_time_ms);
 	printf("[Finished coders so far: %d]\n", sim->finished_coders);
 }
 

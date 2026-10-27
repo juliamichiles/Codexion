@@ -4,13 +4,12 @@ int	init_simulation(t_simulation *sim, const t_args *args)
 {
 	if (!sim || !args)
 		return (1);
+	sim->start_time_ms = get_current_time(); // not sure that's the right place
 	sim->coders = NULL; //bc defensive programming
 	sim->dongles = NULL; //unnecessary in my opinion...
 	sim->stopped = 0;
         sim->finished_coders = 0;
 	sim->args = *args;
-	sim->start_time_ms = get_current_time(); // not sure that's the right place
-						 // I think it doesn't matter
 	sim->dongles = init_dongles(args->number_of_coders);
 	if (!sim->dongles)
 		return (1);
@@ -47,7 +46,7 @@ int	destroy_simulation(t_simulation *sim)
 	// If so *sim must become a double ptr
 	return (0);
 }
-
+/*
 int	simulation(t_simulation *sim)
 {
 	int	i;
@@ -58,4 +57,4 @@ int	simulation(t_simulation *sim)
 	if (sim->number_of_coders == 1)
 		; // TODO: Idk how we're supposed to handle that...
 	
-}
+}*/
