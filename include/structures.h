@@ -42,13 +42,15 @@ typedef enum	e_coder_state
 		CODER_DONE
 }		t_coder_state;
 
+typedef struct  s_heap  t_heap;
 typedef struct	s_simulation t_simulation;
 
 typedef struct		s_dongle
 {
-	int		id;
+	int		    id;
 	t_mtx 		mutex;
 	llong		avaliable_at_ms;
+    t_heap      *heap;
 }			t_dongle;
 
 typedef struct	s_coder
@@ -97,6 +99,6 @@ typedef struct	s_heap
 	int	    capacity; // total max capacity allocated
 	int	    size; // current size/occupation
 	int 	policy; // 1 FIFO / 2 EDF
+};
 
-}           t_heap;
 #endif

@@ -12,10 +12,11 @@
 // TODO: Write a long long alias
 
 // Utilitary:
-int	ft_isspace(char c);
-int	ft_isnum(char c);
+int	    ft_isspace(char c);
+int	    ft_isnum(char c);
 void	p_error(char *message);
-llong       get_current_time(void);
+void    *cleanup(void *memory, void *message);
+llong   get_current_time(void);
 llong	get_elapsed_time(llong start_time);
 
 

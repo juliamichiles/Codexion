@@ -1,4 +1,3 @@
-
 #include "codexion.h"
 
 // - Copy the parsed arguments into sim->args.
@@ -7,27 +6,31 @@
 // - Initialize each coder and dongle.
 // - Connect each coder to its left and right dongles in a circle.
 
-t_dongle *init_dongles(int n_coders)
+t_dongle *init_dongles(int n_coders, int policy)
 {
-	int		i;
-	t_dongle	*dongles;
+	int		    i;
+    t_heap;     *heap;
+	// TODO: I must free this somewhere!!!!!
+    // WARNING: Potential memory leak source!!!!!!
+    // free it in dongle_cleanup()?? how?
+    t_dongle	*dongles;
 
 	i = 0;
 	dongles = malloc(n_coders * sizeof(t_dongle));
 	if (!dongles)
-	{
-		p_error("Dongles memory allocation failled.");
-		return (NULL);
-	}
-	while (i < n_coders)
+		return (cleanup(NULL, "Dongles memory allocation failled."));
+	heap = init_heap;
+    if (!heap)
+        return (cleanup(dongles, "Heap memory allocation failled."));
+    while (i < n_coders)
 	{
 		dongles[i].id = i + 1;
 		dongles[i].avaliable_at_ms = 0;
+        dongles[i].heap = heap;
 		if (handle_mutex(&dongles[i].mutex, INIT) != 0)
 		{
 			dongle_cleanup(&dongles, i);
-			p_error("Failed to initialize dongle mutex.");
-			return (NULL);
+			return (cleanup(NULL, "Failed to initialize dongle mutex."));
 		}
 		i++;
 	}
@@ -54,11 +57,7 @@ t_coder	*init_coders(t_simulation *sim, int n_coders)
 	i = 0;
 	coders = malloc(n_coders * sizeof(t_coder));
 	if (!coders)
-	{
-		//FIXME: Write a better error message
-		p_error("Coders memory allocation failled.");
-		return (NULL);
-	}
+		cleanup(NULL, ("Coders memory allocation failled."));
 	while (i < n_coders)
 	{
 		init_coder(sim, &coders[i], i);

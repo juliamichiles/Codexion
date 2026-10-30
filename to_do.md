@@ -1,3 +1,7 @@
+## Next:
+- [ ] implement coder routine (see gemini)
+- [ ] fix init_dongle (each dongle should have its own heap, not a shared one)
+
 ## Simulation:
 - [ ] Maybe modify destroy simulation to take a double ptr and also handle
     freeing the simulation ptr and setting it to NULL?

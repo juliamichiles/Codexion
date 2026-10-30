@@ -10,7 +10,7 @@ int	init_simulation(t_simulation *sim, const t_args *args)
 	sim->stopped = 0;
         sim->finished_coders = 0;
 	sim->args = *args;
-	sim->dongles = init_dongles(args->number_of_coders);
+	sim->dongles = init_dongles(args->number_of_coders, args->policy);
 	if (!sim->dongles)
 		return (1);
 	sim->coders = init_coders(sim, args->number_of_coders);
