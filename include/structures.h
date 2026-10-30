@@ -93,7 +93,7 @@ typedef struct	s_node
 	llong	deadline;
 }		    t_node;
 
-typedef struct	s_heap
+struct	s_heap
 {
 	t_node	*nodes;
 	int	    capacity; // total max capacity allocated

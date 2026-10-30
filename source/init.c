@@ -9,26 +9,26 @@
 t_dongle *init_dongles(int n_coders, int policy)
 {
 	int		    i;
-    t_heap;     *heap;
-	// TODO: I must free this somewhere!!!!!
-    // WARNING: Potential memory leak source!!!!!!
-    // free it in dongle_cleanup()?? how?
     t_dongle	*dongles;
 
 	i = 0;
 	dongles = malloc(n_coders * sizeof(t_dongle));
 	if (!dongles)
-		return (cleanup(NULL, "Dongles memory allocation failled."));
-	heap = init_heap;
-    if (!heap)
         return (cleanup(dongles, "Heap memory allocation failled."));
     while (i < n_coders)
 	{
 		dongles[i].id = i + 1;
 		dongles[i].avaliable_at_ms = 0;
-        dongles[i].heap = heap;
+        dongles[i].heap = init_heap(2, policy);  // is 2 really enough?
+        if (!dongles[i].heap)
+        {
+            dongle_cleanup(&dongles, i); // if too long, make dongle_cleanup call
+                                         // cleanup internally
+            return (cleanup(NULL, "Dongles memory allocation failled."));
+        }
 		if (handle_mutex(&dongles[i].mutex, INIT) != 0)
 		{
+            heap_destroy(dongles[i].heap); // do I really need this? I think so
 			dongle_cleanup(&dongles, i);
 			return (cleanup(NULL, "Failed to initialize dongle mutex."));
 		}

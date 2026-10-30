@@ -29,9 +29,7 @@ static int	node_comp(t_node *a, t_node *b, int policy)
 		if (a->deadline != b->deadline)
 			return (a->deadline < b->deadline);
 		return (a->arrival_time < b->arrival_time);
-	}
-	else if (policy == 1) 
-		return (a->arrival_time < b->arrival_time);
+	return (a->arrival_time < b->arrival_time);
 }
 
 static void	swap_nodes(t_node *a, t_node *b)

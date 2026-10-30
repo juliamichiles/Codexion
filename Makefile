@@ -1,13 +1,17 @@
 NAME        := codexion
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror
+CFLAGS      := -Wall -Wextra -Werror -pthread
 INC         := -I include
 SRCS        := source/main.c \
                source/parser.c \
                source/utils.c \
-	       source/init.c \
-	       source/wrappers.c \
-	       source/simulation.c
+			   source/init.c \
+	    	   source/wrappers.c \
+	       	   source/simulation.c \
+			   source/logging.c \
+			   source/get_set.c \
+			   source/utils_2.c \
+			   source/coder.c
 
 OBJS        := $(SRCS:.c=.o)
 

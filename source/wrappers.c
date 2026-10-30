@@ -25,21 +25,6 @@ int	handle_mutex(t_mtx *mutex, t_op code)
 		// p_error("Invalid operation code for mutex.");
 }
 
-void	dongle_cleanup(t_dongle **dongles, int size)
-{
-	int	i;
-
-	if (!dongles || !*dongles)
-		return;
-	i = 0;
-	while (i < size)
-	{
-		handle_mutex(&(*dongles)[i].mutex, DESTROY);
-		i++;
-	}
-	free(*dongles);
-	*dongles = NULL;
-}
 
 /*
 static void	handle_thread_error(int status, t_op code)

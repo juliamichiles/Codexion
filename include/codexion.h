@@ -27,7 +27,7 @@ int	handle_mutex(t_mtx *mutex, t_op code);
 int    handle_thread(pthread_t *thread, void *(*f)(void *)
 		, void *data, t_op code);
 void	dongle_cleanup(t_dongle **dongles, int size);
-long	get_llong(t_mtx *mutex, llong *value);
+llong	get_llong(t_mtx *mutex, llong *value);
 void	set_llong(t_mtx *mutex, llong *dest, llong value);
 void	set_bool(t_mtx *mutex, bool *dest, bool value);
 bool	get_bool(t_mtx *mutex, bool *value);
