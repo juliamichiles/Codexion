@@ -6,6 +6,21 @@
 // - Initialize each coder and dongle.
 // - Connect each coder to its left and right dongles in a circle.
 
+static int    init_dongle(t_dongle *dongle, int policy, int i)
+{
+    // Not sure this is equivalent to assigning inside loop
+    // Maybe move more of the loop in here bc the other function is 
+    // still pretty big
+    dongle.id = i + 1;
+    dongle.avaliable_at_ms = 0;
+    dongle.held = false;
+    dongle.next_ticket = 0;
+    dongle.heap = init_heap(2, policy);
+    if (!dongle.heap)
+        return (0); // just choose one way to flag errors and stick to it...
+    return (1); //inconsistent 1/0 returns are driving me insane...
+}
+
 t_dongle *init_dongles(int n_coders, int policy)
 {
 	int		    i;
@@ -17,10 +32,7 @@ t_dongle *init_dongles(int n_coders, int policy)
         return (cleanup(dongles, "Heap memory allocation failled."));
     while (i < n_coders)
 	{
-		dongles[i].id = i + 1;
-		dongles[i].avaliable_at_ms = 0;
-        dongles[i].heap = init_heap(2, policy);  // is 2 really enough?
-        if (!dongles[i].heap)
+        if (!init_dongle(&dongle[i], policy, i))
         {
             dongle_cleanup(&dongles, i); // if too long, make dongle_cleanup call
                                          // cleanup internally
@@ -31,6 +43,13 @@ t_dongle *init_dongles(int n_coders, int policy)
             heap_destroy(dongles[i].heap); // do I really need this? I think so
 			dongle_cleanup(&dongles, i);
 			return (cleanup(NULL, "Failed to initialize dongle mutex."));
+		}
+        if (pthread_cond_init(&dongles[i].cond, NULL) != 0)
+		{
+			handle_mutex(&dongles[i].mutex, DESTROY);
+			heap_destroy(dongles[i].heap);
+			dongle_cleanup(&dongles, i);
+			return (cleanup(NULL, "Failed to initialize dongle cond."));
 		}
 		i++;
 	}
@@ -107,9 +126,9 @@ int	init_sim_mutexes(t_simulation *sim)
 	if (pthread_cond_init(&sim->scheduler_cond, NULL) != 0)
 	{
 		handle_mutex(&sim->scheduler_mutex, DESTROY);
-        	handle_mutex(&sim->state_mutex, DESTROY);
-        	handle_mutex(&sim->log_mutex, DESTROY);
-        	return (1);
+        handle_mutex(&sim->state_mutex, DESTROY);
+        handle_mutex(&sim->log_mutex, DESTROY);
+        return (1);
 	}
 	return (0);
 }

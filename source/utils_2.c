@@ -26,7 +26,8 @@ void	dongle_cleanup(t_dongle **dongles, int size)
 	while (i < size)
 	{
         heap_destroy((*dongles)[i].heap);
-		handle_mutex(&(*dongles)[i].mutex, DESTROY);
+		pthread_cond_destroy(&(*dongles)[i].cond);
+        handle_mutex(&(*dongles)[i].mutex, DESTROY);
 		i++;
 	}
 	free(*dongles);

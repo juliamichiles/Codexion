@@ -47,23 +47,26 @@ typedef struct	s_simulation t_simulation;
 
 typedef struct		s_dongle
 {
-	int		    id;
-	t_mtx 		mutex;
-	llong		avaliable_at_ms;
-    t_heap      *heap;
-}			t_dongle;
+	int		        id;
+	t_mtx 		    mutex;
+	pthread_cond_t  cond;
+    bool            held;
+    llong           next_ticket;
+    llong		    avaliable_at_ms;
+    t_heap          *heap;
+}			        t_dongle;
 
 typedef struct	s_coder
 {
-	int		id;
-	pthread_t	thread;
+	int		        id;
+	pthread_t	    thread;
 	t_coder_state	state;
 
-	t_dongle	*left_dongle;
-	t_dongle	*right_dongle;
+	t_dongle	    *left_dongle;
+	t_dongle	    *right_dongle;
 
-	llong		last_compile_start;
-	int		compile_count;
+	llong		    last_compile_start;
+	int		        compile_count;
 
 	t_simulation	*sim;
 }	t_coder;
