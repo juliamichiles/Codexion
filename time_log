@@ -11,3 +11,7 @@
 18.10 - 3h05 fixing initialization
 19.10 - 4h28 finished initialization + tests
 21.10 - 1h30 planning next steps + added time helpers
+25.10 - 1h30 implemented heap
+27.10 - 2h00 implemented dongle-related actions
+28.10 - 1h20 implemented coder routine
+02.11 - 4h30 refactoring, redistributing files + notes

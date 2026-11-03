@@ -1,6 +1,9 @@
 #include "codexion.h"
 //FIXME: Split this in two files
 
+
+/*Sleeps for ~0.5 milisecons at a time while the given time in miliseconds
+ * hasn't been reached and the simulation hasn't ended*/
 void    ms_sleep(t_simulation *sim, llong ms)
 {
     llong   end;
@@ -9,7 +12,8 @@ void    ms_sleep(t_simulation *sim, llong ms)
     while (!simulation_ended(sim) && get_current_time() < end)
         usleep(500);
 }
-
+/* Ensures coder always attempts to grab lower id dongl first to prevent circular
+ * wait.*/
 static int take_dongles(t_coder *coder)
 {
     t_dongle    *first;
