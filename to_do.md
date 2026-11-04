@@ -1,6 +1,8 @@
 ## Next:
-- [ ] implement coder routine (see gemini)
-- [ ] fix init_dongle (each dongle should have its own heap, not a shared one)
+- [ ] Update makefile with new files
+- [ ] maybe split source in subdirectories, if so update makefile accordingly
+- [ ] fix init.c and simulation.c apparently
+- [ ] implement monitor thread
 
 ## Simulation:
 - [ ] Maybe modify destroy simulation to take a double ptr and also handle
@@ -37,6 +39,8 @@
 - I think obviously args must be in the same order, otherwise, how can I even know which is which...
 
 ## Fixed:
+- [X] implement coder routine
+- [X] fix init_dongle (each dongle should have its own heap, not a shared one)
 - [X] dongles_cleanup only sets th local copy of the ptr to NULL, fix it 
     - Maybe pass a double ptr? Or accept we'll have to do that oustide the func.
     - also I liked dongle_cleanup without the S better...
