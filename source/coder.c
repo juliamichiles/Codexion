@@ -70,6 +70,8 @@ void    *coder_routine(void *arg)
     t_simulation    *sim;
     int             done;
 
+    if (!arg)
+        return (NULL);
     coder = (t_coder *)arg;
     sim = coder->sim;
     if (coder->left_dongle == coder->right_dongle)
