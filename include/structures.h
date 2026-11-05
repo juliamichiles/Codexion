@@ -28,7 +28,6 @@ typedef enum	e_op
 		DESTROY,
 		CREATE,
 		JOIN,
-		DETACH
 }		t_op;
 
 typedef enum	e_coder_state
@@ -82,11 +81,11 @@ struct	s_simulation
 
 	t_mtx		    log_mutex;
 	t_mtx 		    state_mutex;
-	t_mtx 		    scheduler_mutex;
-	pthread_cond_t	scheduler_cond;
+	t_mtx 		    scheduler_mutex; //REMOVE??
+	pthread_cond_t	scheduler_cond; //REMOVE??
 
-	int		stopped;
-	int		finished_coders;
+	bool		stopped;
+	int		    finished_coders;
 };
 
 typedef struct	s_node

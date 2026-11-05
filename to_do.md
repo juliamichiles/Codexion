@@ -1,8 +1,10 @@
 ## Next:
+- [ ] .h files and make files are NOT up to date
+- [ ] Untested as is
+- [ ] Remove scheduler_mutex from all files
 - [ ] Update makefile with new files
+- [ ] I don't love the current file names and distribution...
 - [ ] maybe split source in subdirectories, if so update makefile accordingly
-- [ ] fix init.c and simulation.c apparently
-- [ ] implement monitor thread
 
 ## Simulation:
 - [ ] Maybe modify destroy simulation to take a double ptr and also handle
@@ -38,7 +40,10 @@
 - Not really a question, but I think argc must be 9, and passing all arguments as one should not be accepted
 - I think obviously args must be in the same order, otherwise, how can I even know which is which...
 
-## Fixed:
+## Fixed/Done:
+- [X] fix init.c and simulation.c apparently
+- [X] Haven't created coder threads yet
+- [X] implement monitor thread
 - [X] implement coder routine
 - [X] fix init_dongle (each dongle should have its own heap, not a shared one)
 - [X] dongles_cleanup only sets th local copy of the ptr to NULL, fix it 

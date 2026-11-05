@@ -55,8 +55,6 @@ int	handle_thread(pthread_t *thread, void *(*f)(void *),
 		 return (pthread_create(thread, NULL, f, data));
 	else if (code == JOIN)
 		 return (pthread_join(*thread, NULL));
-	else if (code == DETACH)
-		 return (pthread_detach(*thread));
 	return (EINVAL);
 	// p_error("Invalid operation code for thread.");
 }

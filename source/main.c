@@ -98,7 +98,8 @@ int	main(int ac, char *av[])
 		return (1);
 	}
 	print_simulation(sim);
-	destroy_simulation(sim);
+	run_simulation(sim);
+    destroy_simulation(sim);
 	free(sim);
 	free(info);
 	return (0);

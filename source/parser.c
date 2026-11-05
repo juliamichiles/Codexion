@@ -48,7 +48,7 @@ int	parse_scheduler(char *arg)
 static int	print_error(char *type, char *culprit)
 {
 	//maybe change this bc we also have p_error...
-	fprintf(stderr, "Invalid argument '%s': %s", type, culprit);
+	fprintf(stderr, "Invalid argument '%s': %s\n", type, culprit);
 	return (0);
 }
 
@@ -63,19 +63,19 @@ int	validate_info(t_args *info, char *args[])
 	if (info->number_of_coders < 1)
 		valid = print_error("number of coders", args[0]);
 	if (info->time_to_burnout < 0)
-                valid = print_error("time to burnout", args[1]);
+        valid = print_error("time to burnout", args[1]);
 	if (info->time_to_compile < 0)
 		valid = print_error("time to compile", args[2]);
 	if (info->time_to_debug < 0)
-                valid = print_error("time to time_to_debug", args[3]);
+        valid = print_error("time to time_to_debug", args[3]);
 	if (info->time_to_refactor < 0)
-                valid = print_error("time to refactor", args[4]);
+        valid = print_error("time to refactor", args[4]);
 	if (info->number_of_compiles < 0)
-                valid = print_error("number of compiles required", args[5]);
+        valid = print_error("number of compiles required", args[5]);
 	if (info->dongle_cooldown < 0)
-                valid = print_error("dongle_cooldown", args[6]);
+        valid = print_error("dongle_cooldown", args[6]);
 	if (info->scheduler < 1)
-                valid = print_error("scheduler", args[7]);
+        valid = print_error("scheduler", args[7]);
 	return (valid);
 }
 

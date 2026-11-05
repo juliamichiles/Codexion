@@ -4,10 +4,10 @@ int	init_simulation(t_simulation *sim, const t_args *args)
 {
 	if (!sim || !args)
 		return (1);
-	sim->start_time_ms = get_current_time(); // not sure that's the right place
+	sim->start_time_ms = 0; // maybe remove this line entirely
 	sim->coders = NULL; //bc defensive programming
 	sim->dongles = NULL; //unnecessary in my opinion...
-	sim->stopped = 0;
+	sim->stopped = false;
         sim->finished_coders = 0;
 	sim->args = *args;
 	sim->dongles = init_dongles(args->number_of_coders, args->scheduler);
@@ -39,22 +39,63 @@ int	destroy_simulation(t_simulation *sim)
 	sim->coders = NULL;
 	dongle_cleanup(&sim->dongles, sim->args.number_of_coders);
 	handle_mutex(&sim->log_mutex, DESTROY);
-        handle_mutex(&sim->state_mutex, DESTROY);
-        handle_mutex(&sim->scheduler_mutex, DESTROY);
-	pthread_cond_destroy(&sim->scheduler_cond);
-	// Should also free the simulation itself and set ptr to NULL?
+    handle_mutex(&sim->state_mutex, DESTROY);
+    // handle_mutex(&sim->scheduler_mutex, DESTROY);
+	// pthread_cond_destroy(&sim->scheduler_cond);
+	// REMOVE BOTH LINES ABOVE I THINK WE WON'T USE THIS
+    // Should also free the simulation itself and set ptr to NULL?
 	// If so *sim must become a double ptr
 	return (0);
 }
-/*
-int	simulation(t_simulation *sim)
-{
-	int	i;
 
-	i = 0;
-	// FIXME: check for number_of_compiles == 0?
-	// or other stuff that can't be 0, but maybe stop that at parser already
-	if (sim->number_of_coders == 1)
-		; // TODO: Idk how we're supposed to handle that...
-	
-}*/
+static void init_start_times(t_simulation *sim)
+{
+    int i;
+
+    i = 0;
+    sim->start_time_ms = get_current_time();
+    while (i < sim->args.number_of_coders)
+    {
+        sim->coders[i].last_compile_start = sim->start_time_ms;
+        i++;
+    }
+}
+
+static int  start_coders(t_simulation *sim)
+{
+    int i;
+
+    i = 0;
+    while (i < sim->args.number_of_coders)
+    {
+        if (handle_thread(&sim->coders[i].thread, coder_routine,
+                    &sim->coders[i], CREATE) != 0)
+            break ;
+        i++;
+    }
+    return (i);
+}
+
+int run_simulation(t_simulation *sim)
+{
+    int created;
+    int i;
+
+    i = 0;
+    init_start_times(sim);
+    if (handle_thread(&sim->monitor_thread, monitor_routine, sim, CREATE))
+    {
+        p_error("Failed to create monitor thread.");
+        return (1);
+    }
+    created = start_coders(sim);
+    if (created < sim->args.number_of_coders)
+    {
+        p_error("Failed to create coder thread.");
+        stop_simulation(sim);
+    }
+    while (i < created)
+        handle_thread(&sim->coders[i++].thread, NULL, NULL, JOIN);
+    handle_thread(&sim->monitor_thread, NULL, NULL, JOIN);
+    return (created < sim->args.number_of_coders);
+}

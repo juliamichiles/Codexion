@@ -38,5 +38,5 @@ void	set_llong(t_mtx *mutex, llong *dest, llong value)
 
 bool	simulation_ended(t_simulation *sim)
 {
-	return (get_bool(&sim->state_mutex, (bool *)&sim->stopped));
+	return (get_bool(&sim->state_mutex, &sim->stopped));
 }

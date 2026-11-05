@@ -117,7 +117,8 @@ int	init_sim_mutexes(t_simulation *sim)
 		handle_mutex(&sim->log_mutex, DESTROY);
 		return (1);
 	}
-	if (handle_mutex(&sim->scheduler_mutex, INIT) != 0)
+	// TODO: Remove the scheduler_mutex part b we don't use it
+    if (handle_mutex(&sim->scheduler_mutex, INIT) != 0)
 	{	
 		handle_mutex(&sim->log_mutex, DESTROY);
 		handle_mutex(&sim->state_mutex, DESTROY);

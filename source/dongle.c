@@ -1,6 +1,6 @@
 #include "codexion.h"
 
-bool is_top(t_dongle *d, int id)
+static bool is_top(t_dongle *d, int id)
 {
     return ((bool)(d->heap->size > 0 && d->heap->nodes[0].coder_id == id));
 }
@@ -8,7 +8,7 @@ bool is_top(t_dongle *d, int id)
 /* If the dongle is not being held and the given coder is "next in line"
  * puts that coder's thread to sleep for a given amount of time (until dongle 
  * is avaliable) otherwise puts it to sleep indefinitely*/
-void wait_dongle(t_dongle *dongle, int coder_id)
+static void wait_dongle(t_dongle *dongle, int coder_id)
 {
     struct timespec ts;
 
@@ -22,6 +22,14 @@ void wait_dongle(t_dongle *dongle, int coder_id)
         pthread_cond_wait(&dongle->cond, &dongle->mutex);
 }
 
+/* checks if coder has priority, dongle is free and cooldown has passed,
+  * if any of those is false the coder waits*/
+static bool can_take(t_dongle *d, int id)
+{
+    return (is_top(d, id) && !d->held 
+            && d->avaliable_at_ms <= get_current_time());
+}
+
 int  acquire_dongle(t_coder *coder, t_dongle *dongle)
 {
     t_simulation    *sim;
@@ -31,12 +39,9 @@ int  acquire_dongle(t_coder *coder, t_dongle *dongle)
     sim = coder->sim;
     deadline = get_llong(&sim->state_mutex, &coder->last_compile_start)
         + sim->args.time_to_burnout;
-    handle_mutex(&dongle->mutex, LOCK); //protects all t_dongle's variables
+    handle_mutex(&dongle->mutex, LOCK);
     heap_push(dongle->heap, dongle->next_ticket++, deadline, coder->id);
-    // checks if coder has priority, dongle is free and cooldown has passed,
-    // if any of those is false the coder waits (loop bellow)
-    while (!simulation_ended(sim) && !(is_top(dongle, coder->id) 
-                && !dongle->held && dongle->avaliable_at_ms <= get_current_time()))
+    while (!simulation_ended(sim) && !can_take(dongle, coder->id))
         wait_dongle(dongle, coder->id);
     if (simulation_ended(sim))
     {
