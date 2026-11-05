@@ -11,12 +11,12 @@ static int    init_dongle(t_dongle *dongle, int policy, int cap, int i)
     // Not sure this is equivalent to assigning inside loop
     // Maybe move more of the loop in here bc the other function is 
     // still pretty big
-    dongle.id = i + 1;
-    dongle.avaliable_at_ms = 0;
-    dongle.held = false;
-    dongle.next_ticket = 0;
-    dongle.heap = init_heap(cap, policy);
-    if (!dongle.heap)
+    dongle->id = i + 1;
+    dongle->avaliable_at_ms = 0;
+    dongle->held = false;
+    dongle->next_ticket = 0;
+    dongle->heap = init_heap(cap, policy);
+    if (!dongle->heap)
         return (0); // just choose one way to flag errors and stick to it...
     return (1); //inconsistent 1/0 returns are driving me insane...
 }
@@ -32,7 +32,7 @@ t_dongle *init_dongles(int n_coders, int policy)
         return (cleanup(dongles, "Heap memory allocation failled."));
     while (i < n_coders)
 	{
-        if (!init_dongle(&dongle[i], policy, n_coders, i))
+        if (!init_dongle(&dongles[i], policy, n_coders, i))
         {
             dongle_cleanup(&dongles, i); // if too long, make dongle_cleanup call
                                          // cleanup internally

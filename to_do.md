@@ -1,4 +1,8 @@
+
+
 ## Next:
+- [ ] infinit loop :'(
+- [ ] restructure (see claude)
 - [ ] .h files and make files are NOT up to date
 - [ ] Untested as is
 - [ ] Remove scheduler_mutex from all files
@@ -42,6 +46,7 @@
 
 ## Fixed/Done:
 - [X] fix init.c and simulation.c apparently
+- [X] actually try to run this 
 - [X] Haven't created coder threads yet
 - [X] implement monitor thread
 - [X] implement coder routine

@@ -11,7 +11,11 @@ SRCS        := source/main.c \
 			   source/logging.c \
 			   source/get_set.c \
 			   source/utils_2.c \
-			   source/coder.c
+			   source/coder.c \
+			   source/heap.c \
+			   source/monitor.c \
+			   source/stop.c \
+			   source/dongle.c
 
 OBJS        := $(SRCS:.c=.o)
 

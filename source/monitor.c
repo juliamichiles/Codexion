@@ -29,7 +29,7 @@ static void declare_burnout(t_simulation *sim, t_coder *coder)
 {
     set_bool(&sim->state_mutex, &sim->stopped, true);
     print_status(sim, coder->id, BURNED_OUT);
-    wake_all_dongles(sim);
+    wake_everyone(sim);
 }
 
 void    *monitor_routine(void *arg)

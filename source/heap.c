@@ -6,7 +6,7 @@ t_heap *init_heap(int capacity, int policy)
 
     if (capacity <= 0)
         return (NULL);
-	heap = malloc(sizeof(t_heap));
+    heap = malloc(sizeof(t_heap));
 	if (!heap)
 		return (NULL);
 	heap->nodes = malloc(sizeof(t_node) * capacity);
@@ -23,13 +23,15 @@ t_heap *init_heap(int capacity, int policy)
 
 static int	node_comp(t_node *a, t_node *b, int policy)
 {
-	// return choosen node instead?
-	if (policy == 2)
+	// FIXME:
+	// right now fifo is the EDF's tie-breaker, but maybe make it so 
+    // that EDF's is fifo's tie-breaker as well
+    if (policy == 2)
 	{
 		if (a->deadline != b->deadline)
 			return (a->deadline < b->deadline);
-		return (a->arrival_time < b->arrival_time);
-	return (a->arrival_time < b->arrival_time);
+    }
+    return (a->arrival_time < b->arrival_time);
 }
 
 static void	swap_nodes(t_node *a, t_node *b)
@@ -44,7 +46,7 @@ static void	swap_nodes(t_node *a, t_node *b)
 void	heap_push(t_heap *heap, llong arrival_time, llong deadline, int id)
 {
     int policy;
-	int	i;
+    int	i;
 
 	i = heap->size;
 	if (heap->size >= heap->capacity)
