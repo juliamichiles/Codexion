@@ -1,7 +1,28 @@
-
-
 ## Next:
-- [ ] infinit loop :'(
+- [ ] a LOT of Tests
+- [ ] ensure there aren't any memory leaks
+- [ ] Norminette
+- [ ] Remove unnecessary comments (ensure remaining ones respect the norm)
+- [ ] adress TODOs and FIXMEs
+- [ ] README - ADD A FLOWCHART!!
+
+## At school:
+- [ ] add HEADERS
+- [ ] ensure its still working normally
+- [ ] update to_begitignore
+- [ ] run 'mv to_begitignore .gitignore' BEFORE PUSHING to intra's repo
+
+## Tests:
+- [ ] Memory leaks + threads
+- [ ] Edge cases (one coder)
+
+## Optional:
+- [ ] write a helper for main
+- [ ] Restruture directories
+- [ ] modify time to use the clock function instead
+- [ ] draw threads/workflow
+
+## Restructure:
 - [ ] restructure (see claude)
 - [ ] .h files and make files are NOT up to date
 - [ ] Untested as is

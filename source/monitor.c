@@ -9,6 +9,7 @@ static bool has_burned_out(t_simulation *sim, t_coder *coder)
     deadline = sim->args.time_to_burnout;
     burned = coder->compile_count < sim->args.number_of_compiles
         && get_elapsed_time(coder->last_compile_start) >= deadline;
+    handle_mutex(&sim->state_mutex, UNLOCK);
     return (burned);
 }
 
