@@ -84,7 +84,12 @@ int	main(int ac, char *av[])
 		return (1);
 	// print_args(info);
 	// TODO: write a helper to handle allocating the sim. at simulation.c
-	sim = malloc(sizeof(t_simulation) * 1);
+	if (info->number_of_coders == 0 || info->number_of_compiles == 0)
+    {
+        free(info);
+        return (0);
+    }
+    sim = malloc(sizeof(t_simulation) * 1);
 	if (!sim)
 	{
 		free(info);
@@ -97,7 +102,7 @@ int	main(int ac, char *av[])
 		free(info);
 		return (1);
 	}
-	print_simulation(sim);
+	// print_simulation(sim);
 	run_simulation(sim);
     destroy_simulation(sim);
 	free(sim);

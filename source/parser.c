@@ -60,7 +60,7 @@ int	validate_info(t_args *info, char *args[])
 	int	valid;
 	
 	valid = 1;
-	if (info->number_of_coders < 1)
+	if (info->number_of_coders < 0)
 		valid = print_error("number of coders", args[0]);
 	if (info->time_to_burnout < 0)
         valid = print_error("time to burnout", args[1]);

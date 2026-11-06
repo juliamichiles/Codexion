@@ -1,0 +1,92 @@
+=== SIMULATION ===
+[ARGS]
+number_of_coders: 2
+time_to_burnout: 2000
+time_to_compile: 30
+time_to_debug: 400
+time_to_refactor: 50
+number_of_compiles: 6
+dongle_cooldown: 7
+scheduler: 1
+
+[DONGLES]
+| Dongle 1 - avaliable at 0 ms |
+| Dongle 2 - avaliable at 0 ms |
+
+[CODERS]
+---
+[Coder 1]
+ Current State: 0
+ Left dongle's id: 1
+ Right dongle's id: 2
+ Last compile at: -1 ms
+ Compile count: 0
+ Simulation addr.: 0x5fef539362d0
+---
+[Coder 2]
+ Current State: 0
+ Left dongle's id: 2
+ Right dongle's id: 1
+ Last compile at: -1 ms
+ Compile count: 0
+ Simulation addr.: 0x5fef539362d0
+
+[Simulation stopped: NO]
+[Start time: 0]
+[Finished coders so far: 0]
+1 1 has taken a dongle
+1 1 has taken a dongle
+1 1 is compiling
+31 1 is debugging
+38 2 has taken a dongle
+38 2 has taken a dongle
+38 2 is compiling
+68 2 is debugging
+431 1 is refactoring
+468 2 is refactoring
+481 1 has taken a dongle
+481 1 has taken a dongle
+481 1 is compiling
+511 1 is debugging
+518 2 has taken a dongle
+518 2 has taken a dongle
+518 2 is compiling
+548 2 is debugging
+911 1 is refactoring
+948 2 is refactoring
+961 1 has taken a dongle
+961 1 has taken a dongle
+961 1 is compiling
+991 1 is debugging
+998 2 has taken a dongle
+998 2 has taken a dongle
+998 2 is compiling
+1028 2 is debugging
+1391 1 is refactoring
+1428 2 is refactoring
+1441 1 has taken a dongle
+1441 1 has taken a dongle
+1441 1 is compiling
+1471 1 is debugging
+1478 2 has taken a dongle
+1478 2 has taken a dongle
+1478 2 is compiling
+1508 2 is debugging
+1871 1 is refactoring
+1908 2 is refactoring
+1921 1 has taken a dongle
+1921 1 has taken a dongle
+1921 1 is compiling
+1951 1 is debugging
+1958 2 has taken a dongle
+1958 2 has taken a dongle
+1958 2 is compiling
+1988 2 is debugging
+2351 1 is refactoring
+2388 2 is refactoring
+2401 1 has taken a dongle
+2401 1 has taken a dongle
+2401 1 is compiling
+2438 2 has taken a dongle
+2438 2 has taken a dongle
+2438 2 is compiling
