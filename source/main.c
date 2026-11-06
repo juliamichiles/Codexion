@@ -66,46 +66,42 @@ void	print_simulation(t_simulation *sim)
 	printf("[Finished coders so far: %d]\n", sim->finished_coders);
 }
 
-int	main(int ac, char *av[])
+void codexion(t_args *info)
 {
-	t_args		*info;
-	t_simulation	*sim;
+    t_simulation *sim;
 
-	if (ac != 9)
-	{
-		p_error(
-			"Usage: ./codexion number_of_coders time_to_burnout "
-			"time_to_compile time_to_debug time_to_refactor "
-			"number_of_compiles_required dongle_cooldown scheduler");
-		return (1);
-	}
-	info = parse_args(av + 1);
-	if (!info)
-		return (1);
-	// print_args(info);
-	// TODO: write a helper to handle allocating the sim. at simulation.c
-	if (info->number_of_coders == 0 || info->number_of_compiles == 0)
-    {
-        free(info);
-        return (0);
-    }
+    if (info->number_of_coders == 0 || info->number_of_compiles == 0)
+        return ;
     sim = malloc(sizeof(t_simulation) * 1);
 	if (!sim)
 	{
-		free(info);
 		p_error("Simulation memory allocation failed.");
-		return (1);
+		return ;
 	}
 	if (init_simulation(sim, info) != 0)
 	{
 		free(sim);
-		free(info);
-		return (1);
-	}
-	// print_simulation(sim);
-	run_simulation(sim);
+		return ;
+    }
+    run_simulation(sim);
     destroy_simulation(sim);
 	free(sim);
+    return ;
+}
+
+int	main(int ac, char *av[])
+{
+	t_args		*info;
+
+	if (ac != 9)
+	{
+		p_error("Error: Expected exactly 8 arguments.");
+		return (1);
+	}
+	info = parse_args(av + 1);
+	if (!info)
+		return (1);	
+    codexion(info);
 	free(info);
 	return (0);
 }
