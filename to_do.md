@@ -1,7 +1,7 @@
 ## Next:
 - [ ] a LOT of Tests
 - [ ] ensure there aren't any memory leaks
-- [ ] Norminette
+- [ ] Norminette (with that flag for .h files?)
 - [ ] Remove unnecessary comments (ensure remaining ones respect the norm)
 - [ ] adress TODOs and FIXMEs
 - [ ] README - ADD A FLOWCHART!!
@@ -17,8 +17,8 @@
 - [ ] Edge cases (one coder)
 
 ## Optional:
-- [ ] write a helper for main
-- [ ] Restruture directories
+- [X] write a helper for main
+- [X] Restruture directories
 - [ ] modify time to use the clock function instead
 - [ ] draw threads/workflow
 

@@ -17,3 +17,5 @@
 02.11 - 4h30 refactoring, redistributing files + notes
 03.11 - 1h00 reviewing POSIX-threads + minor fixes
 05.11 - 5h42 added monitor thread + coder threads + updated makefile/.h file + it runs!
+06.11 - 4h05 debugging
+08.11 - 5h18 reorganizing source + testing + debugging
