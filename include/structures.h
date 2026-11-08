@@ -81,8 +81,8 @@ struct	s_simulation
 
 	t_mtx		    log_mutex;
 	t_mtx 		    state_mutex;
-	t_mtx 		    scheduler_mutex; //REMOVE??
-	pthread_cond_t	scheduler_cond; //REMOVE??
+    t_mtx           scheduler_mutex;
+    pthread_cond_t  scheduler_cond;
 
 	bool		stopped;
 	int		    finished_coders;
@@ -98,9 +98,9 @@ typedef struct	s_node
 struct	s_heap
 {
 	t_node	*nodes;
-	int	    capacity; // total max capacity allocated
-	int	    size; // current size/occupation
-	int 	policy; // 1 FIFO / 2 EDF
+	int	    capacity;
+	int	    size;
+	int 	policy;
 };
 
 #endif

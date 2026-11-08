@@ -1,0 +1,20 @@
+0 1 has taken a dongle
+0 2 has taken a dongle
+0 3 has taken a dongle
+0 3 has taken a dongle
+0 3 is compiling
+200 3 is debugging
+210 2 has taken a dongle
+210 2 is compiling
+400 3 is refactoring
+410 2 is debugging
+420 1 has taken a dongle
+420 1 is compiling
+600 3 has taken a dongle
+600 3 has taken a dongle
+600 3 is compiling
+610 2 is refactoring
+620 1 is debugging
+630 4 has taken a dongle
+800 3 is debugging
+800 4 burned out

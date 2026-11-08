@@ -1,6 +1,13 @@
 docs/
 unused/
+logs/
 practice/
 *.swp
 to_do.md
 to_be_gitignore
+fails/
+sum_time.py
+tests/
+.dev/
+dev/
+time_log
