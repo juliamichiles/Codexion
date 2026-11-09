@@ -1,6 +1,6 @@
 #include "codexion.h"
 
-t_heap *init_heap(int capacity, int policy)
+t_heap	*init_heap(int capacity, int policy)
 {
 	t_heap	*heap;
 
@@ -21,11 +21,8 @@ t_heap *init_heap(int capacity, int policy)
 	return (heap);
 }
 
-static int	node_comp(t_node *a, t_node *b, int policy)
+static int	nodecmp(t_node *a, t_node *b, int policy)
 {
-	// FIXME:
-	// right now fifo is the EDF's tie-breaker, but maybe make it so 
-	// that EDF's is fifo's tie-breaker as well
 	if (policy == 2)
 	{
 		if (a->deadline != b->deadline)
@@ -34,7 +31,7 @@ static int	node_comp(t_node *a, t_node *b, int policy)
 	return (a->arrival_time < b->arrival_time);
 }
 
-static void	swap_nodes(t_node *a, t_node *b)
+static void	nodeswp(t_node *a, t_node *b)
 {
 	t_node	temp;
 
@@ -43,9 +40,10 @@ static void	swap_nodes(t_node *a, t_node *b)
 	*b = temp;
 }
 
+/* compare node with its parent and swap if necessary*/
 void	heap_push(t_heap *heap, llong arrival_time, llong deadline, int id)
 {
-	int policy;
+	int	policy;
 	int	i;
 
 	i = heap->size;
@@ -56,43 +54,38 @@ void	heap_push(t_heap *heap, llong arrival_time, llong deadline, int id)
 	heap->nodes[i].arrival_time = arrival_time;
 	heap->nodes[i].deadline = deadline;
 	heap->size += 1;
-	while (i > 0 && node_comp(&heap->nodes[i], &heap->nodes[(i - 1) / 2], policy))
+	while (i > 0 && nodecmp(&heap->nodes[i], &heap->nodes[(i - 1) / 2], policy))
 	{
-		// compare node with its parent and swap if necessary
-		swap_nodes(&heap->nodes[i], &heap->nodes[(i - 1) / 2]);
-		i = (i - 1) / 2; // goes back to parent's idx
+		nodeswp(&heap->nodes[i], &heap->nodes[(i - 1) / 2]);
+		i = (i - 1) / 2;
 	}
 }
 
-int heap_pop(t_heap *heap, t_node *out_node)
+int	heap_pop(t_heap *heap, t_node *out_node)
 {
-	int smallest;
-	int policy;
-	int right;
-	int left;
-	int i;
+	t_heap_var	var;
 
 	if (heap->size <= 0)
 		return (1);
-	i = 0;
-	policy = heap->policy;
-	*out_node = heap->nodes[0]; //first node
+	var.i = 0;
+	var.policy = heap->policy;
+	*out_node = heap->nodes[0];
 	heap->nodes[0] = heap->nodes[--heap->size];
 	while (1)
 	{
-		smallest = i;
-		left = 2 * i + 1;
-		right = 2 * i + 2;
-		if (left < heap->size 
-				&& node_comp(&heap->nodes[left], &heap->nodes[smallest], policy))
-			smallest = left;
-		if (right < heap->size 
-				&& node_comp(&heap->nodes[right], &heap->nodes[smallest], policy))
-			smallest = right;
-		if (smallest == i)
-			break;
-		swap_nodes(&heap->nodes[i], &heap->nodes[smallest]);
-		i = smallest;
+		var.smallest = var.i;
+		var.left = 2 * var.i + 1;
+		var.right = 2 * var.i + 2;
+		if (var.left < heap->size && nodecmp(&heap->nodes[var.left],
+				&heap->nodes[var.smallest], var.policy))
+			var.smallest = var.left;
+		if (var.right < heap->size && nodecmp(&heap->nodes[var.right],
+				&heap->nodes[var.smallest], var.policy))
+			var.smallest = var.right;
+		if (var.smallest == var.i)
+			break ;
+		nodeswp(&heap->nodes[var.i], &heap->nodes[var.smallest]);
+		var.i = var.smallest;
 	}
 	return (0);
 }

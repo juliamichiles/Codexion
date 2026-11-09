@@ -6,45 +6,41 @@
 * - Initialize each coder and dongle.
 * - Connect each coder to its left and right dongles in a circle.
 */
-static int    init_dongle(t_dongle *dongle, int policy, int cap, int i)
+static int	init_dongle(t_dongle *dongle, int policy, int cap, int i)
 {
-    // Not sure this is equivalent to assigning inside loop
-    // Maybe move more of the loop in here bc the other function is 
-    // still pretty big
-    dongle->id = i + 1;
-    dongle->avaliable_at_ms = 0;
-    dongle->held = false;
-    dongle->next_ticket = 0;
-    dongle->heap = init_heap(cap, policy);
-    if (!dongle->heap)
-        return (0); // just choose one way to flag errors and stick to it...
-    return (1); //inconsistent 1/0 returns are driving me insane...
+	dongle->id = i + 1;
+	dongle->avaliable_at_ms = 0;
+	dongle->held = false;
+	dongle->next_ticket = 0;
+	dongle->heap = init_heap(cap, policy);
+	if (!dongle->heap)
+		return (0); // just choose one way to flag errors and stick to it...
+	return (1); //inconsistent 1/0 returns are driving me insane...
 }
 
 t_dongle *init_dongles(int n_coders, int policy)
 {
-	int		    i;
-    t_dongle	*dongles;
+	int			i;
+	t_dongle	*dongles;
 
 	i = 0;
 	dongles = malloc(n_coders * sizeof(t_dongle));
 	if (!dongles)
-        return (cleanup(dongles, "Heap memory allocation failled."));
-    while (i < n_coders)
+		return (cleanup(dongles, "Heap memory allocation failled."));
+	while (i < n_coders)
 	{
-        if (!init_dongle(&dongles[i], policy, n_coders, i))
-        {
-            dongle_cleanup(&dongles, i); // if too long, make dongle_cleanup call
-                                         // cleanup internally
-            return (cleanup(NULL, "Dongles memory allocation failled."));
-        }
+		if (!init_dongle(&dongles[i], policy, n_coders, i))
+		{
+			dongle_cleanup(&dongles, i); // if too long, make dongle_cleanup call
+			return (cleanup(NULL, "Dongles memory allocation failled."));
+		}
 		if (handle_mutex(&dongles[i].mutex, INIT) != 0)
 		{
-            heap_destroy(dongles[i].heap); // do I really need this? I think so
+			heap_destroy(dongles[i].heap); // do I really need this? I think so
 			dongle_cleanup(&dongles, i);
 			return (cleanup(NULL, "Failed to initialize dongle mutex."));
 		}
-        if (pthread_cond_init(&dongles[i].cond, NULL) != 0)
+		if (pthread_cond_init(&dongles[i].cond, NULL) != 0)
 		{
 			handle_mutex(&dongles[i].mutex, DESTROY);
 			heap_destroy(dongles[i].heap);
@@ -58,8 +54,8 @@ t_dongle *init_dongles(int n_coders, int policy)
 
 t_coder	*init_coders(t_simulation *sim, int n_coders)
 {
-	int	i;
 	t_coder	*coders;
+	int		i;
 
 	i = 0;
 	coders = malloc(n_coders * sizeof(t_coder));
@@ -82,11 +78,9 @@ void	assign_dongles(t_simulation *sim)
 	n = sim->args.number_of_coders;
 	if (n == 1)
 	{
-		// FIXME: NOT SURE this FULLY handles the 1 coder edge case
-		// Maybe there's something else to do??
 		sim->coders[i].left_dongle = &sim->dongles[i];
 		sim->coders[i].right_dongle = &sim->dongles[i];
-		return;
+		return ;
 	}
 	while (i < n)
 	{
@@ -105,9 +99,8 @@ int	init_sim_mutexes(t_simulation *sim)
 		handle_mutex(&sim->log_mutex, DESTROY);
 		return (1);
 	}
-	// TODO: Remove the scheduler_mutex part b we don't use it
-    if (handle_mutex(&sim->scheduler_mutex, INIT) != 0)
-	{	
+	if (handle_mutex(&sim->scheduler_mutex, INIT) != 0)
+	{
 		handle_mutex(&sim->log_mutex, DESTROY);
 		handle_mutex(&sim->state_mutex, DESTROY);
 		return (1);
@@ -115,9 +108,9 @@ int	init_sim_mutexes(t_simulation *sim)
 	if (pthread_cond_init(&sim->scheduler_cond, NULL) != 0)
 	{
 		handle_mutex(&sim->scheduler_mutex, DESTROY);
-        handle_mutex(&sim->state_mutex, DESTROY);
-        handle_mutex(&sim->log_mutex, DESTROY);
-        return (1);
+		handle_mutex(&sim->state_mutex, DESTROY);
+		handle_mutex(&sim->log_mutex, DESTROY);
+		return (1);
 	}
 	return (0);
 }

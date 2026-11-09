@@ -8,7 +8,7 @@ int	init_simulation(t_simulation *sim, const t_args *args)
 	sim->coders = NULL; //bc defensive programming
 	sim->dongles = NULL; //unnecessary in my opinion...
 	sim->stopped = false;
-        sim->finished_coders = 0;
+    sim->finished_coders = 0;
 	sim->args = *args;
 	sim->dongles = init_dongles(args->number_of_coders, args->scheduler);
 	if (!sim->dongles)
