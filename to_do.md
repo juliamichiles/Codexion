@@ -1,4 +1,8 @@
+
+
 ## Next:
+- [ ] structures.h still has Norminette errors
+- [ ] REVIEW README + ADD AI USAGE
 - [ ] a LOT of Tests
 - [ ] ensure there aren't any memory leaks
 - [ ] Norminette (with that flag for .h files?)

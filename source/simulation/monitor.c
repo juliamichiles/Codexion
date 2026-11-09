@@ -2,7 +2,7 @@
 
 void	print_status(t_simulation *sim, int coder_id, t_coder_state state)
 {
-	llong	time_stamp;
+	t_llong	time_stamp;
 
 	handle_mutex(&sim->log_mutex, LOCK);
 	if (simulation_ended(sim) && state != BURNED_OUT)

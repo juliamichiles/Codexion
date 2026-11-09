@@ -17,9 +17,9 @@ void	set_bool(t_mtx *mutex, bool *dest, bool value)
 	handle_mutex(mutex, UNLOCK);
 }
 
-llong	get_llong(t_mtx *mutex, llong *value)
+t_llong	get_llong(t_mtx *mutex, t_llong *value)
 {
-	llong	ret;
+	t_llong	ret;
 
 	handle_mutex(mutex, LOCK);
 	ret = *value;
@@ -27,7 +27,7 @@ llong	get_llong(t_mtx *mutex, llong *value)
 	return (ret);
 }
 
-void	set_llong(t_mtx *mutex, llong *dest, llong value)
+void	set_llong(t_mtx *mutex, t_llong *dest, t_llong value)
 {
 	handle_mutex(mutex, LOCK);
 	*dest = value;

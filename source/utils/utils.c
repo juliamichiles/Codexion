@@ -19,7 +19,7 @@ void	p_error(char *message)
 	fprintf(stderr, "%s\n", message);
 }
 
-llong	get_elapsed_time(llong start_time)
+t_llong	get_elapsed_time(t_llong start_time)
 {
 	return (get_current_time() - start_time);
 }

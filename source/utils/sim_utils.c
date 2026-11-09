@@ -3,9 +3,9 @@
 /*Sleeps for ~0.5 milisecons at a time while the given time in miliseconds
  * hasn't been reached and the simulation hasn't ended (tested with 200 
  * to 1500)*/
-void	ms_sleep(t_simulation *sim, llong ms)
+void	ms_sleep(t_simulation *sim, t_llong ms)
 {
-	llong	end;
+	t_llong	end;
 
 	end = get_current_time() + ms;
 	while (!simulation_ended(sim) && get_current_time() < end)

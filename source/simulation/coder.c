@@ -40,7 +40,7 @@ static int	take_dongles(t_coder *coder)
 static int	compile(t_coder *coder)
 {
 	t_simulation	*sim;
-	llong			*lst_cmp;
+	t_llong			*lst_cmp;
 	int				done;
 
 	sim = coder->sim;

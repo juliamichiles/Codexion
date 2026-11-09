@@ -35,7 +35,7 @@ static bool	can_take(t_dongle *d, int id)
 int	acquire_dongle(t_coder *coder, t_dongle *dongle)
 {
 	t_simulation	*sim;
-	llong			deadline;
+	t_llong			deadline;
 	t_node			trash;
 
 	sim = coder->sim;

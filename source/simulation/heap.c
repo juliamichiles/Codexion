@@ -41,7 +41,7 @@ static void	nodeswp(t_node *a, t_node *b)
 }
 
 /* compare node with its parent and swap if necessary*/
-void	heap_push(t_heap *heap, llong arrival_time, llong deadline, int id)
+void	heap_push(t_heap *heap, t_llong arrival_time, t_llong deadline, int id)
 {
 	int	policy;
 	int	i;

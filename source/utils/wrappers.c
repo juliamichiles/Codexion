@@ -23,7 +23,7 @@ int	handle_thread(pthread_t *thread, void *(*f)(void *),
 	return (EINVAL);
 }
 
-llong	get_current_time(void)
+t_llong	get_current_time(void)
 {
 	struct timeval	tv;
 
