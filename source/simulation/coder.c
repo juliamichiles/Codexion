@@ -1,6 +1,6 @@
 #include "codexion.h"
 
-void   init_coder(t_simulation *sim, t_coder *coder, int index)
+void	init_coder(t_simulation *sim, t_coder *coder, int index)
 {
 	coder->id = index + 1;
 	coder->state = WAITING_FOR_DONGLES;
@@ -11,9 +11,9 @@ void   init_coder(t_simulation *sim, t_coder *coder, int index)
 	coder->sim = sim;
 }
 
-/* Ensures coder always attempts to grab lower id dongl first to prevent circular
- * wait.*/
-static int take_dongles(t_coder *coder)
+/* Ensures coder always attempts to grab lower id dongl first to prevent 
+ * circular wait.*/
+static int	take_dongles(t_coder *coder)
 {
 	t_dongle	*first;
 	t_dongle	*second;
@@ -31,19 +31,21 @@ static int take_dongles(t_coder *coder)
 	if (acquire_dongle(coder, second))
 	{
 		release_dongle(coder, first);
-		return(1);
+		return (1);
 	}
 	print_status(coder->sim, coder->id, TAKEN_DONGLE);
 	return (0);
 }
 
-static int  compile(t_coder *coder)
+static int	compile(t_coder *coder)
 {
 	t_simulation	*sim;
-	int			 done;
+	llong			*lst_cmp;
+	int				done;
 
 	sim = coder->sim;
-	set_llong(&sim->state_mutex, &coder->last_compile_start, get_current_time());
+	lst_cmp = &coder->last_compile_start;
+	set_llong(&sim->state_mutex, lst_cmp, get_current_time());
 	print_status(sim, coder->id, COMPILING);
 	ms_sleep(sim, sim->args.time_to_compile);
 	handle_mutex(&sim->state_mutex, LOCK);
@@ -55,7 +57,7 @@ static int  compile(t_coder *coder)
 	return (done);
 }
 
-static void *one_coder(t_coder *coder)
+static void	*one_coder(t_coder *coder)
 {
 	print_status(coder->sim, coder->id, TAKEN_DONGLE);
 	while (!simulation_ended(coder->sim))
@@ -66,8 +68,8 @@ static void *one_coder(t_coder *coder)
 void	*coder_routine(void *arg)
 {
 	t_simulation	*sim;
-	t_coder		    *coder;
-	int			    done;
+	t_coder			*coder;
+	int				done;
 
 	if (!arg)
 		return (NULL);
@@ -83,7 +85,7 @@ void	*coder_routine(void *arg)
 		release_dongle(coder, coder->left_dongle);
 		release_dongle(coder, coder->right_dongle);
 		if (done)
-			break;
+			break ;
 		print_status(sim, coder->id, DEBUGGING);
 		ms_sleep(sim, sim->args.time_to_debug);
 		print_status(sim, coder->id, REFACTORING);

@@ -2,7 +2,7 @@
 
 int	handle_mutex(t_mtx *mutex, t_op code)
 {
-		if (code == LOCK)
+	if (code == LOCK)
 		return (pthread_mutex_lock(mutex));
 	else if (code == UNLOCK)
 		return (pthread_mutex_unlock(mutex));
@@ -17,15 +17,15 @@ int	handle_thread(pthread_t *thread, void *(*f)(void *),
 		void *data, t_op code)
 {
 	if (code == CREATE)
-		 return (pthread_create(thread, NULL, f, data));
+		return (pthread_create(thread, NULL, f, data));
 	else if (code == JOIN)
-		 return (pthread_join(*thread, NULL));
+		return (pthread_join(*thread, NULL));
 	return (EINVAL);
 }
 
-llong   get_current_time(void)
+llong	get_current_time(void)
 {
-	struct timeval  tv;
+	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL))
 	{

@@ -1,15 +1,15 @@
 #include "codexion.h"
 
 /*Sleeps for ~0.5 milisecons at a time while the given time in miliseconds
- * hasn't been reached and the simulation hasn't ended*/
+ * hasn't been reached and the simulation hasn't ended (tested with 200 
+ * to 1500)*/
 void	ms_sleep(t_simulation *sim, llong ms)
-    {
-	llong   end;
+{
+	llong	end;
 
 	end = get_current_time() + ms;
 	while (!simulation_ended(sim) && get_current_time() < end)
-		usleep(300); // was 500 before
-                      // tested 200 300 400 100 and 1500
+		usleep(300);
 }
 
 void	heap_destroy(t_heap *heap)
@@ -22,10 +22,10 @@ void	heap_destroy(t_heap *heap)
 
 void	dongle_cleanup(t_dongle **dongles, int size)
 {
-	int i;
+	int	i;
 
 	if (!dongles || !*dongles)
-		return;
+		return ;
 	i = 0;
 	while (i < size)
 	{
@@ -46,7 +46,7 @@ void	stop_simulation(t_simulation *sim)
 
 void	wake_everyone(t_simulation *sim)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < sim->args.number_of_coders)
