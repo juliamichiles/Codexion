@@ -14,11 +14,22 @@ static int	init_dongle(t_dongle *dongle, int policy, int cap, int i)
 	dongle->next_ticket = 0;
 	dongle->heap = init_heap(cap, policy);
 	if (!dongle->heap)
-		return (0); // just choose one way to flag errors and stick to it...
-	return (1); //inconsistent 1/0 returns are driving me insane...
+		return (1);
+	if (handle_mutex(&dongle->mutex, INIT) != 0)
+	{
+		heap_destroy(dongle->heap);
+		return (1);
+	}
+	if (pthread_cond_init(&dongle->cond, NULL) != 0)
+	{
+		handle_mutex(&dongle->mutex, DESTROY);
+		heap_destroy(dongle->heap);
+		return (1);
+	}
+	return (0);
 }
 
-t_dongle *init_dongles(int n_coders, int policy)
+t_dongle	*init_dongles(int n_coders, int policy)
 {
 	int			i;
 	t_dongle	*dongles;
@@ -26,26 +37,13 @@ t_dongle *init_dongles(int n_coders, int policy)
 	i = 0;
 	dongles = malloc(n_coders * sizeof(t_dongle));
 	if (!dongles)
-		return (cleanup(dongles, "Heap memory allocation failled."));
+		return (cleanup(NULL, "Dongle allocation failled."));
 	while (i < n_coders)
 	{
-		if (!init_dongle(&dongles[i], policy, n_coders, i))
+		if (init_dongle(&dongles[i], policy, n_coders, i) != 0)
 		{
-			dongle_cleanup(&dongles, i); // if too long, make dongle_cleanup call
-			return (cleanup(NULL, "Dongles memory allocation failled."));
-		}
-		if (handle_mutex(&dongles[i].mutex, INIT) != 0)
-		{
-			heap_destroy(dongles[i].heap); // do I really need this? I think so
 			dongle_cleanup(&dongles, i);
-			return (cleanup(NULL, "Failed to initialize dongle mutex."));
-		}
-		if (pthread_cond_init(&dongles[i].cond, NULL) != 0)
-		{
-			handle_mutex(&dongles[i].mutex, DESTROY);
-			heap_destroy(dongles[i].heap);
-			dongle_cleanup(&dongles, i);
-			return (cleanup(NULL, "Failed to initialize dongle cond."));
+			return (cleanup(NULL, "Dongle Initialization failled."));
 		}
 		i++;
 	}

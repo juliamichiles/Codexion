@@ -2,7 +2,7 @@
 
 void	print_status(t_simulation *sim, int coder_id, t_coder_state state)
 {
-	llong   time_stamp;
+	llong	time_stamp;
 
 	handle_mutex(&sim->log_mutex, LOCK);
 	if (simulation_ended(sim) && state != BURNED_OUT)
@@ -24,10 +24,10 @@ void	print_status(t_simulation *sim, int coder_id, t_coder_state state)
 	handle_mutex(&sim->log_mutex, UNLOCK);
 }
 
-static bool has_burned_out(t_simulation *sim, t_coder *coder)
+static bool	has_burned_out(t_simulation *sim, t_coder *coder)
 {
 	bool	burned;
-	int	 deadline;
+	int		deadline;
 
 	handle_mutex(&sim->state_mutex, LOCK);
 	deadline = sim->args.time_to_burnout;
@@ -37,7 +37,7 @@ static bool has_burned_out(t_simulation *sim, t_coder *coder)
 	return (burned);
 }
 
-static bool all_finished(t_simulation *sim)
+static bool	all_finished(t_simulation *sim)
 {
 	bool	done;
 
@@ -50,7 +50,7 @@ static bool all_finished(t_simulation *sim)
 /*First we set the flag first so no other message gets printed
  * than print the burnout line
  * only than we wake the sleeping threads*/
-static void declare_burnout(t_simulation *sim, t_coder *coder)
+static void	declare_burnout(t_simulation *sim, t_coder *coder)
 {
 	set_bool(&sim->state_mutex, &sim->stopped, true);
 	print_status(sim, coder->id, BURNED_OUT);
@@ -60,7 +60,7 @@ static void declare_burnout(t_simulation *sim, t_coder *coder)
 void	*monitor_routine(void *arg)
 {
 	t_simulation	*sim;
-	int			 i;
+	int				i;
 
 	sim = (t_simulation *)arg;
 	while (!simulation_ended(sim))

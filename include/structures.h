@@ -103,4 +103,13 @@ struct	s_heap
 	int 	policy;
 };
 
+typedef struct	s_heap_var
+{
+	int	smallest;
+	int policy;
+	int right;
+	int left;
+	int i;
+}		t_heap_var;
+
 #endif
