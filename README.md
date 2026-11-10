@@ -2,9 +2,11 @@ _This project has been created as part of the 42 curriculum by juliatav_
 
 ## Description
 
-**Codexion** is a concurrency simulation written in C with POSIX threads. `number_of_coders` coders sit in a circle with one USB dongle between each pair of neighbours. Each coder cycles through compiling, debugging and refactoring. Compiling requires holding both neighbouring dongles at once. A coder who does not start compiling within `time_to_burnout` ms of their last compile start (or of the simulation start) burns out and the simulation stops. It also stops when every coder has compiled `number_of_compiles_required` times.
+**Codexion** is a concurrency simulation inspired by the classic philosophers problem, written in C with POSIX threads. Here `number_of_coders` coders sit in a circle with one USB dongle between each pair of neighbours. Each coder cycles through compiling, debugging and refactoring. 
 
-Dongles are granted according to a scheduler (`fifo` or `edf`) backed by a hand-written priority queue (heap), and each dongle has a cooldown after being released.
+Compiling requires holding both neighbouring dongles at once. A coder who doesn't compile  for `time_to_burnout` ms burns out, after compiling, dongles must cooldown for `time_to_cooldown` ms. The simulation ends when every coder has compiled `number_of_compiles_required` times or when a coder burns out.
+
+If two or more coders request the same dongle, it should be granted according to a scheduler (`fifo` or `edf`) backed by a hand-written priority queue (heap).
 
 ## Instructions
 
@@ -47,10 +49,16 @@ Other rules: `make clean`, `make fclean` and `make re`. Builds with `cc -Wall -W
 
 ### POSIX threads
 - https://medium.com/@techdhaba.training/posix-threads-pthreads-the-simplest-way-to-understand-real-multithreading-in-c-c2f591ab7a03
+- https://www.youtube.com/watch?v=d9s_d28yJq0&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&pp=0gcJCR0Ga94AFGB0
 - PTHREADS(7) Linux Programmer's Manual - POSIX threads
+- USLEEP(3) Linux Programmer's Manual
+- GETTIMEOFDAY(2) Linux Programmer's Manual 
 
 ### Dining philosophers problem
 - https://medium.com/@jalal92/the-dining-philosophers-7157cc05315
 - https://www.youtube.com/watch?v=zOpzGHwJ3MU
+
+### Heap in C:
+- https://nkugwamarkwilliam.medium.com/heap-in-c-programming-made-easy-e84a8b423660
 
 ### Use of AI
