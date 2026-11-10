@@ -8,6 +8,7 @@ Compiling requires holding both neighbouring dongles at once. A coder who doesn'
 
 If two or more coders request the same dongle, it should be granted according to a scheduler (`fifo` or `edf`) backed by a hand-written priority queue (heap).
 
+```mermaid
 flowchart LR
     D1[Dongle 1] --- C1((Coder 1))
     C1 --- D2[Dongle 2]
@@ -20,6 +21,7 @@ flowchart LR
     C1 -. compiles .-> Compiler
     C2 -. compiles .-> Compiler
     C3 -. compiles .-> Compiler
+```
 
 ## Instructions
 
