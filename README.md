@@ -64,7 +64,11 @@ Other rules: `make clean`, `make fclean` and `make re`. Builds with `cc -Wall -W
 - **`state_mutex`:** protects the `stopped` flag, each coder's `last_compile_start` and `compile_count`, and `finished_coders`. All access goes through the `get_*`/`set_*` helpers or explicit lock/unlock, so the monitor never reads half-updated values.
 - **`log_mutex`:** serializes output so lines never interleave.
 - **Coder ↔ monitor communication:** the monitor reads coder state under `state_mutex`. To stop the simulation it sets `stopped` under that same mutex and then broadcasts on every dongle's condition variable, so coders blocked in `pthread_cond_wait` wake up, see the flag and exit.
+- **Wrappers around the POSIX API:** Raw `pthread_*` calls are kept out of the main code and centralised in wrapper functions. Mutex operations go through `handle_mutex(mutex, LOCK | UNLOCK | INIT | DESTROY)`, while thread operations use `handle_thread(thread, routine, data, CREATE | JOIN)` (`wrappers.c`). Each call site specifies the desired operation through a `t_op` enum, keeping the code concise and readable while preserving the original POSIX return codes, allowing errors to be detected and handled by the caller.
+Shared values are accessed through small helper functions (`get_bool`, `set_bool`, `get_llong` and `set_llong` in `get_set.c`), which acquire the relevant mutex, perform the read or write, and release the mutex internally. This centralises synchronisation and prevents callers from accidentally leaving a mutex locked, including through early returns.
+For critical sections involving multiple operations, such as `acquire_dongle()`, explicit `handle_mutex(..., LOCK/UNLOCK)` calls are used instead. Every exit path releases the mutex before returning.
 - No custom event implementation is used.
+
 
 ## Resources
 

@@ -2,12 +2,12 @@
 
 ## Next:
 - [ ] structures.h still has Norminette errors
-- [ ] REVIEW README + ADD AI USAGE
-- [ ] a LOT of Tests
+- [X] REVIEW README + ADD AI USAGE
+- [X] a LOT of Tests
 - [ ] ensure there aren't any memory leaks
 - [ ] Norminette (with that flag for .h files?)
 - [ ] Remove unnecessary comments (ensure remaining ones respect the norm)
-- [ ] adress TODOs and FIXMEs
+- [X] adress TODOs and FIXMEs
 - [ ] README - ADD A FLOWCHART!!
 
 ## At school:
