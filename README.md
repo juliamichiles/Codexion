@@ -26,6 +26,27 @@ All times are in milliseconds. `scheduler` is `fifo` or `edf`.
     ./codexion 5 800 200 200 200 7 50 edf
 
 Other rules: `make clean`, `make fclean` and `make re`. Builds with `cc -Wall -Wextra -Werror -pthread`.
+**Example output:**
+
+```
+    $ ./codexion 2 10000 200 300 500 2 800 fifo
+    1 1 has taken a dongle
+    2 1 has taken a dongle
+    2 1 is compiling
+    202 1 is debugging
+    502 1 is refactoring
+    1026 2 has taken a dongle
+    1026 2 has taken a dongle
+    1026 2 is compiling
+    1226 2 is debugging
+    1526 2 is refactoring
+    2050 1 has taken a dongle
+    2050 1 has taken a dongle
+    2051 1 is compiling
+    3058 2 has taken a dongle
+    3058 2 has taken a dongle
+    3058 2 is compiling
+```
 
 ## Blocking cases handled
 
@@ -58,7 +79,9 @@ Other rules: `make clean`, `make fclean` and `make re`. Builds with `cc -Wall -W
 - https://medium.com/@jalal92/the-dining-philosophers-7157cc05315
 - https://www.youtube.com/watch?v=zOpzGHwJ3MU
 
-### Heap in C:
+### Heap in C
 - https://nkugwamarkwilliam.medium.com/heap-in-c-programming-made-easy-e84a8b423660
 
 ### Use of AI
+AI tools were used as development support to clarify aspects of the POSIX threads API, investigate implementation issues, and improve the wording and formatting of this README. 
+The project’s architecture, algorithms, and implementation were developed and reviewed by the author. AI-generated suggestions were treated as assistance and were tested and adapted where appropriate.
