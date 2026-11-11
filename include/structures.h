@@ -4,8 +4,10 @@
 # include <pthread.h>
 # include <stdbool.h>
 
-typedef pthread_mutex_t	t_mtx;
-typedef long long		t_llong;
+typedef pthread_mutex_t		t_mtx;
+typedef long long			t_llong;
+typedef struct s_heap		t_heap;
+typedef struct s_simulation	t_simulation;
 
 typedef struct s_args
 {
@@ -39,9 +41,6 @@ typedef enum e_coder_state
 	BURNED_OUT,
 	CODER_DONE
 }	t_coder_state;
-
-typedef struct s_heap		t_heap;
-typedef struct s_simulation	t_simulation;
 
 typedef struct s_dongle
 {
