@@ -50,7 +50,7 @@ Other rules: `make clean`, `make fclean` and `make re`. Builds with `cc -Wall -W
 
 ## Blocking cases handled
 
-- **Deadlock prevention:** each coder always takes the dongle with the lower id first, so a circular wait (one of Coffman's conditions) cannot form.
+- **Deadlock prevention (resource hierarchy):** each coder always takes the dongle with the lower id first, so a circular wait (one of Coffman's conditions) cannot form.
 - **Starvation prevention:** each dongle has its own heap of waiting coders. With `fifo` the oldest request wins. With `edf` the coder with the earliest deadline (`last_compile_start + time_to_burnout`) wins, and arrival order breaks ties.
 - **Cooldown handling:** a released dongle records `avaliable_at_ms`. The next coder in line sleeps with `pthread_cond_timedwait` until the cooldown has passed.
 - **Precise burnout detection:** a separate monitor thread checks every coder about every 1 ms, well inside the 10 ms limit. It sets the stop flag, prints the burnout line, and wakes all sleeping threads.
