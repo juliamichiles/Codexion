@@ -42,6 +42,7 @@ typedef enum e_coder_state
 	CODER_DONE
 }	t_coder_state;
 
+/* next_ticket is the request order for fifo, I hate this name...*/
 typedef struct s_dongle
 {
 	int				id;
