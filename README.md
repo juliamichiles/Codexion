@@ -48,6 +48,43 @@ Other rules: `make clean`, `make fclean` and `make re`. Builds with `cc -Wall -W
     3058 2 is compiling
 ```
 
+## Project's structure:
+
+```mermaid
+flowchart LR
+    SIM["t_simulation"]
+    ARGS["t_args<br/>timings, coder count,<br/>compile quota, scheduler"]
+    CODERS["t_coder array"]
+    DONGLES["t_dongle array"]
+
+    SIM --> ARGS
+    SIM --> CODERS
+    SIM --> DONGLES
+
+    CODERS --> C1["Coder 1"]
+    CODERS --> C2["Coder 2"]
+    CODERS --> CN["... Coder N"]
+
+    DONGLES --> D1["Dongle 1"]
+    DONGLES --> D2["Dongle 2"]
+    DONGLES --> DN["... Dongle N"]
+
+    C1 -->|"left_dongle / right_dongle"| D1
+    C1 -->|"neighbor"| D2
+    C2 -->|"neighbors"| D2
+    C2 -->|"neighbor"| DN
+    CN -->|"neighbors; circular arrangement"| DN
+    CN -->|"neighbor"| D1
+
+    C1 -. "sim pointer" .-> SIM
+    C2 -. "sim pointer" .-> SIM
+    CN -. "sim pointer" .-> SIM
+
+    D1 --> H1["Per-dongle t_heap"]
+    D2 --> H2["Per-dongle t_heap"]
+    DN --> HN["Per-dongle t_heap"]
+```
+
 ## Blocking cases handled
 
 - **Deadlock prevention (resource hierarchy):** each coder always takes the dongle with the lower id first, so a circular wait (one of Coffman's conditions) cannot form.
