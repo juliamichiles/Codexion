@@ -13,6 +13,7 @@ SRCS        := source/main.c \
 			   source/simulation/coder.c \
 			   source/simulation/heap.c \
 			   source/simulation/monitor.c \
+			   source/simulation/dongle_pair.c \
 			   source/simulation/dongle.c
 
 OBJS        := $(SRCS:.c=.o)

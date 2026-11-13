@@ -25,14 +25,10 @@ static int	take_dongles(t_coder *coder)
 		first = coder->right_dongle;
 		second = coder->left_dongle;
 	}
-	if (acquire_dongle(coder, first))
+	//FIXME? Maybe change to if !acquire_dongle???
+	if (acquire_dongles(coder, first, second))
 		return (1);
 	print_status(coder->sim, coder->id, TAKEN_DONGLE);
-	if (acquire_dongle(coder, second))
-	{
-		release_dongle(coder, first);
-		return (1);
-	}
 	print_status(coder->sim, coder->id, TAKEN_DONGLE);
 	return (0);
 }

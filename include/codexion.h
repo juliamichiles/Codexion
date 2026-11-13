@@ -53,10 +53,14 @@ int			heap_pop(t_heap *heap, t_node *out_node);
 /* Coders, dongles and monitor:*/
 void		init_coder(t_simulation *sim, t_coder *coder, int index);
 void		release_dongle(t_coder *coder, t_dongle *dongle);
-int			acquire_dongle(t_coder *coder, t_dongle *dongle);
 void		print_status(t_simulation *sim, int coder_id, t_coder_state state);
 void		wake_everyone(t_simulation *sim);
 void		*coder_routine(void *arg);
 void		*monitor_routine(void *arg);
+int			acquire_dongles(t_coder *c, t_dongle *a, t_dongle *b);
+bool		is_ready(t_dongle *d, int id);
+void		wait_dongle(t_dongle *d);
+void		lock_pair(t_dongle *a, t_dongle *b);
+void		unlock_pair(t_dongle *a, t_dongle *b);
 
 #endif
