@@ -62,5 +62,7 @@ void		print_status(t_simulation *sim, int coder_id, t_coder_state state);
 void		wake_everyone(t_simulation *sim);
 void		*coder_routine(void *arg);
 void		*monitor_routine(void *arg);
+void		queue_request(t_coder *c);
+void		preload_requests(t_simulation *sim);
 
 #endif

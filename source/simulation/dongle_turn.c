@@ -42,3 +42,17 @@ void	wait_turn(t_coder *c, t_dongle *a, t_dongle *b)
 	pthread_cond_timedwait(&c->sim->scheduler_cond,
 		&c->sim->scheduler_mutex, &ts);
 }
+
+void	queue_request(t_coder *c)
+{
+	t_dongle	*l;
+	t_dongle	*r;
+	t_llong		deadline;
+
+	l = c->left_dongle;
+	r = c->right_dongle;
+	deadline = get_llong(&c->sim->state_mutex, &c->last_compile_start)
+		+ c->sim->args.time_to_burnout;
+	heap_push(l->heap, l->next_ticket++, deadline, c->id);
+	heap_push(r->heap, r->next_ticket++, deadline, c->id);
+}

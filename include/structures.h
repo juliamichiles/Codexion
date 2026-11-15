@@ -64,6 +64,7 @@ typedef struct s_coder
 	t_dongle		*right_dongle;
 
 	t_llong			last_compile_start;
+	bool			queued;
 	int				compile_count;
 
 	t_simulation	*sim;
