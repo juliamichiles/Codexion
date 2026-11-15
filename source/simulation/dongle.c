@@ -1,49 +1,52 @@
 #include "codexion.h"
 
-/* Coder is on top of this dongle's heap, dongle is free and cooled down.*/
-bool	is_ready(t_dongle *d, int id)
+static void	enqueue_pair(t_coder *c, t_dongle *a, t_dongle *b)
 {
-	if (d->heap->size == 0 || d->heap->nodes[0].coder_id != id)
-		return (false);
-	return ((bool)(!d->held && d->avaliable_at_ms <= get_current_time()));
+	t_llong	deadline;
+
+	deadline = get_llong(&c->sim->state_mutex, &c->last_compile_start)
+		+ c->sim->args.time_to_burnout;
+	heap_push(a->heap, a->next_ticket++, deadline, c->id);
+	heap_push(b->heap, b->next_ticket++, deadline, c->id);
 }
 
-/* If the dongle is not being held puts that coder's thread to sleep until the dongle has cooled down otherwise puts it to sleep until a broadcast*/
-void	wait_dongle(t_dongle *dongle)
+static void	take_pair(t_coder *c, t_dongle *a, t_dongle *b)
 {
-	struct timespec	ts;
+	heap_remove(a->heap, c->id);
+	heap_remove(b->heap, c->id);
+	a->held = true;
+	b->held = true;
+}
 
-	if (!dongle->held && dongle->avaliable_at_ms > get_current_time())
+int	acquire_dongles(t_coder *c, t_dongle *a, t_dongle *b)
+{
+	t_simulation	*sim;
+
+	sim = c->sim;
+	handle_mutex(&sim->scheduler_mutex, LOCK);
+	enqueue_pair(c, a, b);
+	while (!simulation_ended(sim) && !can_go(c, a, b))
+		wait_turn(c, a, b);
+	if (simulation_ended(sim))
 	{
-		ts.tv_sec = dongle->avaliable_at_ms / 1000;
-		ts.tv_nsec = (dongle->avaliable_at_ms % 1000) * 1000000;
-		pthread_cond_timedwait(&dongle->cond, &dongle->mutex, &ts);
+		handle_mutex(&sim->scheduler_mutex, UNLOCK);
+		return (1);
 	}
-	else
-		pthread_cond_wait(&dongle->cond, &dongle->mutex);
+	take_pair(c, a, b);
+	handle_mutex(&sim->scheduler_mutex, UNLOCK);
+	return (0);
 }
 
-/*Actually "releases" the dongle setting it as false, updates the time it'll 
- * being avaliable and wakes all threads waiting on this dongle's condition 
- * variable.*/
+/*Actually "releases" the dongle setting it as false, updates the time it'll
+ * being avaliable and wakes all threads waiting via scheduler_cond*/
 void	release_dongle(t_coder *coder, t_dongle *dongle)
 {
-	handle_mutex(&dongle->mutex, LOCK);
+	t_simulation	*sim;
+
+	sim = coder->sim;
+	handle_mutex(&sim->scheduler_mutex, LOCK);
 	dongle->held = false;
-	dongle->avaliable_at_ms = get_current_time()
-		+ coder->sim->args.dongle_cooldown;
-	pthread_cond_broadcast(&dongle->cond);
-	handle_mutex(&dongle->mutex, UNLOCK);
-}
-
-void	lock_pair(t_dongle *a, t_dongle *b)
-{
-	handle_mutex(&a->mutex, LOCK);
-	handle_mutex(&b->mutex, LOCK);
-}
-
-void	unlock_pair(t_dongle *a, t_dongle *b)
-{
-	handle_mutex(&a->mutex, UNLOCK);
-	handle_mutex(&b->mutex, UNLOCK);
+	dongle->avaliable_at_ms = get_current_time() + sim->args.dongle_cooldown;
+	pthread_cond_broadcast(&sim->scheduler_cond);
+	handle_mutex(&sim->scheduler_mutex, UNLOCK);
 }

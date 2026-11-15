@@ -25,7 +25,6 @@ static int	take_dongles(t_coder *coder)
 		first = coder->right_dongle;
 		second = coder->left_dongle;
 	}
-	//FIXME? Maybe change to if !acquire_dongle???
 	if (acquire_dongles(coder, first, second))
 		return (1);
 	print_status(coder->sim, coder->id, TAKEN_DONGLE);
@@ -67,10 +66,10 @@ void	*coder_routine(void *arg)
 	t_coder			*coder;
 	int				done;
 
-	if (!arg)
-		return (NULL);
 	coder = (t_coder *)arg;
 	sim = coder->sim;
+	if (coder->id % 2 == 0)
+		usleep(2000);
 	if (coder->left_dongle == coder->right_dongle)
 		return (one_coder(coder));
 	while (!simulation_ended(sim))
