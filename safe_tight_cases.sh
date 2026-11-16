@@ -10,8 +10,6 @@ run_test()
     printf ' %s' "$@"
     printf '\n'
 
-    # SAFETY FIX: Capture output in a memory variable instead of 
-    # creating/deleting physical files on /mnt/c/ via mktemp
     output=$(./codexion "$@" 2>&1)
     
     burnouts=$(echo "$output" | grep -c "burned out" || true)
@@ -23,7 +21,6 @@ run_test()
     fi
     printf '\n'
 
-    # Small cooldown pause to let the WSL/Windows file bridge breathe
     sleep 0.1
 }
 

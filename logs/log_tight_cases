@@ -1,0 +1,72 @@
+./safe_tight_cases.sh
+./codexion 2 850 200 200 200 5 10 fifo
+OK
+
+./codexion 2 850 200 200 200 5 10 edf
+OK
+
+./codexion 4 800 200 200 200 5 10 fifo
+BURNOUT (1)
+
+./codexion 4 800 200 200 200 5 10 edf
+BURNOUT (1)
+
+./codexion 5 1000 200 200 200 5 10 fifo
+BURNOUT (1)
+
+./codexion 5 1000 200 200 200 5 10 edf
+BURNOUT (1)
+
+./codexion 6 1000 150 150 150 5 10 fifo
+OK
+
+./codexion 6 1000 150 150 150 5 10 edf
+OK
+
+./codexion 8 1400 200 200 200 5 20 fifo
+BURNOUT (1)
+
+./codexion 8 1400 200 200 200 5 20 edf
+BURNOUT (1)
+
+./codexion 10 1600 200 200 200 5 20 fifo
+BURNOUT (1)
+
+./codexion 10 1600 200 200 200 5 20 edf
+BURNOUT (1)
+
+./codexion 4 1000 200 200 200 5 100 fifo
+BURNOUT (1)
+
+./codexion 4 1000 200 200 200 5 100 edf
+BURNOUT (1)
+
+./codexion 5 1200 200 200 200 5 150 fifo
+BURNOUT (1)
+
+./codexion 5 1200 200 200 200 5 150 edf
+BURNOUT (1)
+
+./codexion 8 1600 200 200 200 5 200 fifo
+BURNOUT (1)
+
+./codexion 8 1600 200 200 200 5 200 edf
+BURNOUT (1)
+
+./codexion 4 500 50 100 100 10 10 fifo
+OK
+
+./codexion 4 500 50 100 100 10 10 edf
+OK
+
+./codexion 5 700 50 100 100 10 20 fifo
+OK
+
+./codexion 5 700 50 100 100 10 20 edf
+OK
+
+./codexion 8 1000 50 100 100 10 20 fifo
+OK
+
+./codexion 8 1000 50 100 100 10 20 edf
+OK

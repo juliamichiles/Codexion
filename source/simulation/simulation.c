@@ -77,6 +77,7 @@ int	run_simulation(t_simulation *sim)
 
 	i = 0;
 	init_start_times(sim);
+	preload_requests(sim);
 	if (handle_thread(&sim->monitor_thread, monitor_routine, sim, CREATE))
 	{
 		p_error("Failed to create monitor thread.");

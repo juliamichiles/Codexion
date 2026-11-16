@@ -48,15 +48,21 @@ t_heap		*init_heap(int capacity, int policy);
 void		heap_destroy(t_heap *heap);
 void		heap_push(t_heap *heap, t_llong arrival_time, t_llong deadline,
 				int id);
-int			heap_pop(t_heap *heap, t_node *out_node);
+int			heap_remove(t_heap *heap, int id);
+int			nodecmp(t_node *a, t_node *b, int policy);
+void		nodeswp(t_node *a, t_node *b);
 
 /* Coders, dongles and monitor:*/
 void		init_coder(t_simulation *sim, t_coder *coder, int index);
+int			acquire_dongles(t_coder *c, t_dongle *a, t_dongle *b);
 void		release_dongle(t_coder *coder, t_dongle *dongle);
-int			acquire_dongle(t_coder *coder, t_dongle *dongle);
+bool		can_go(t_coder *c, t_dongle *a, t_dongle *b);
+void		wait_turn(t_coder *c, t_dongle *a, t_dongle *b);
 void		print_status(t_simulation *sim, int coder_id, t_coder_state state);
 void		wake_everyone(t_simulation *sim);
 void		*coder_routine(void *arg);
 void		*monitor_routine(void *arg);
+void		queue_request(t_coder *c);
+void		preload_requests(t_simulation *sim);
 
 #endif

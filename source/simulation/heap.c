@@ -21,7 +21,7 @@ t_heap	*init_heap(int capacity, int policy)
 	return (heap);
 }
 
-static int	nodecmp(t_node *a, t_node *b, int policy)
+int	nodecmp(t_node *a, t_node *b, int policy)
 {
 	if (policy == 2)
 	{
@@ -31,7 +31,7 @@ static int	nodecmp(t_node *a, t_node *b, int policy)
 	return (a->arrival_time < b->arrival_time);
 }
 
-static void	nodeswp(t_node *a, t_node *b)
+void	nodeswp(t_node *a, t_node *b)
 {
 	t_node	temp;
 
@@ -59,33 +59,4 @@ void	heap_push(t_heap *heap, t_llong arrival_time, t_llong deadline, int id)
 		nodeswp(&heap->nodes[i], &heap->nodes[(i - 1) / 2]);
 		i = (i - 1) / 2;
 	}
-}
-
-int	heap_pop(t_heap *heap, t_node *out_node)
-{
-	t_heap_var	var;
-
-	if (heap->size <= 0)
-		return (1);
-	var.i = 0;
-	var.policy = heap->policy;
-	*out_node = heap->nodes[0];
-	heap->nodes[0] = heap->nodes[--heap->size];
-	while (1)
-	{
-		var.smallest = var.i;
-		var.left = 2 * var.i + 1;
-		var.right = 2 * var.i + 2;
-		if (var.left < heap->size && nodecmp(&heap->nodes[var.left],
-				&heap->nodes[var.smallest], var.policy))
-			var.smallest = var.left;
-		if (var.right < heap->size && nodecmp(&heap->nodes[var.right],
-				&heap->nodes[var.smallest], var.policy))
-			var.smallest = var.right;
-		if (var.smallest == var.i)
-			break ;
-		nodeswp(&heap->nodes[var.i], &heap->nodes[var.smallest]);
-		var.i = var.smallest;
-	}
-	return (0);
 }

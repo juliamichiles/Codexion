@@ -1,0 +1,92 @@
+0 1 has taken a dongle
+0 1 has taken a dongle
+0 1 is compiling
+0 3 has taken a dongle
+0 3 has taken a dongle
+0 3 is compiling
+200 1 is debugging
+200 3 is debugging
+210 2 has taken a dongle
+210 2 has taken a dongle
+210 4 has taken a dongle
+210 4 has taken a dongle
+210 4 is compiling
+210 2 is compiling
+400 3 is refactoring
+400 1 is refactoring
+410 2 is debugging
+410 4 is debugging
+600 1 has taken a dongle
+600 1 has taken a dongle
+600 1 is compiling
+600 3 has taken a dongle
+600 3 has taken a dongle
+600 3 is compiling
+610 4 is refactoring
+610 2 is refactoring
+800 3 is debugging
+800 1 is debugging
+810 2 has taken a dongle
+810 2 has taken a dongle
+810 2 is compiling
+810 4 has taken a dongle
+810 4 has taken a dongle
+810 4 is compiling
+1000 3 is refactoring
+1000 1 is refactoring
+1010 2 is debugging
+1010 4 is debugging
+1200 1 has taken a dongle
+1200 1 has taken a dongle
+1200 1 is compiling
+1200 3 has taken a dongle
+1200 3 has taken a dongle
+1200 3 is compiling
+1210 4 is refactoring
+1210 2 is refactoring
+1400 1 is debugging
+1400 3 is debugging
+1410 2 has taken a dongle
+1410 2 has taken a dongle
+1410 2 is compiling
+1410 4 has taken a dongle
+1410 4 has taken a dongle
+1410 4 is compiling
+1600 3 is refactoring
+1600 1 is refactoring
+1610 4 is debugging
+1610 2 is debugging
+1800 3 has taken a dongle
+1800 3 has taken a dongle
+1800 3 is compiling
+1800 1 has taken a dongle
+1800 1 has taken a dongle
+1800 1 is compiling
+1810 2 is refactoring
+1810 4 is refactoring
+2000 1 is debugging
+2000 3 is debugging
+2010 2 has taken a dongle
+2010 2 has taken a dongle
+2010 2 is compiling
+2010 4 has taken a dongle
+2010 4 has taken a dongle
+2010 4 is compiling
+2200 3 is refactoring
+2200 1 is refactoring
+2210 2 is debugging
+2210 4 is debugging
+2400 1 has taken a dongle
+2400 1 has taken a dongle
+2400 1 is compiling
+2400 3 has taken a dongle
+2400 3 has taken a dongle
+2400 3 is compiling
+2410 2 is refactoring
+2410 4 is refactoring
+2610 4 has taken a dongle
+2610 4 has taken a dongle
+2610 4 is compiling
+2610 2 has taken a dongle
+2610 2 has taken a dongle
+2610 2 is compiling

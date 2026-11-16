@@ -64,6 +64,7 @@ typedef struct s_coder
 	t_dongle		*right_dongle;
 
 	t_llong			last_compile_start;
+	bool			queued;
 	int				compile_count;
 
 	t_simulation	*sim;
@@ -101,14 +102,5 @@ struct s_heap
 	int		size;
 	int		policy;
 };
-
-typedef struct s_heap_var
-{
-	int	smallest;
-	int	policy;
-	int	right;
-	int	left;
-	int	i;
-}		t_heap_var;
 
 #endif

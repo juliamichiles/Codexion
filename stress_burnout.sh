@@ -1,3 +1,4 @@
+#!/bin/bash
 mkdir -p fails
 for i in $(seq 300); do
   ./codexion 4 800 200 200 200 5 10 fifo > out.txt
