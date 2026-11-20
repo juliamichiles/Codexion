@@ -23,7 +23,7 @@ All times are in milliseconds. `scheduler` is `fifo` or `edf`.
 
 **Example:**
 
-    ./codexion 5 800 200 200 200 7 50 edf
+    ./codexion 5 900 200 200 200 7 50 edf
 
 Other rules: `make clean`, `make fclean` and `make re`. Builds with `cc -Wall -Wextra -Werror -pthread`.
 **Example output:**
