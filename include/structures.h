@@ -79,7 +79,7 @@ typedef struct s_coder
 	bool			queued;
 	int				compile_count;
 
-	t_simulation	*sim;
+		t_simulation	*sim;
 }	t_coder;
 
 struct s_simulation

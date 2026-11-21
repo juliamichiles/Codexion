@@ -81,8 +81,6 @@ void	*coder_routine(void *arg)
 
 	coder = (t_coder *)arg;
 	sim = coder->sim;
-	//if (coder->id % 2 == 0)
-	//	usleep(2000);
 	if (coder->left_dongle == coder->right_dongle)
 		return (one_coder(coder));
 	while (!simulation_ended(sim))

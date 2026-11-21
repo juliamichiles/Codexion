@@ -28,7 +28,7 @@ int	acquire_dongles(t_coder *c, t_dongle *a, t_dongle *b)
 	handle_mutex(&sim->scheduler_mutex, LOCK);
 	if (!c->queued)
 		queue_request(c);
-	c->queued= false;
+	c->queued = false;
 	while (!simulation_ended(sim) && !can_go(c, a, b))
 		wait_turn(c, a, b);
 	if (simulation_ended(sim))
