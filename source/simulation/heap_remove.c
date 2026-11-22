@@ -14,7 +14,7 @@
 
 static void	sift_up(t_heap *h, int i)
 {
-	while (i < 0 && nodecmp(&h->nodes[i], &h->nodes[(i - 1) / 2],
+	while (i > 0 && nodecmp(&h->nodes[i], &h->nodes[(i - 1) / 2],
 			h->policy))
 	{
 		nodeswp(&h->nodes[i], &h->nodes[(i - 1) / 2]);
@@ -31,9 +31,9 @@ static void	sift_down(t_heap *h, int i)
 	while (1)
 	{
 		best_idx = i;
-		if (2 * i + 1 < h->size && nodecmp(&h->nodes[2 * 1 + 1],
+		if (2 * i + 1 < h->size && nodecmp(&h->nodes[2 * i + 1],
 				&h->nodes[best_idx], h->policy))
-			best_idx = 2 * i + 2;
+			best_idx = 2 * i + 1;
 		if (2 * i + 2 < h->size && nodecmp(&h->nodes[2 * i + 2],
 				&h->nodes[best_idx], h->policy))
 			best_idx = 2 * i + 2;

@@ -70,7 +70,7 @@ t_coder	*init_coders(t_simulation *sim, int n_coders)
 	i = 0;
 	coders = malloc(n_coders * sizeof(t_coder));
 	if (!coders)
-		cleanup(NULL, ("Coders memory allocation failled."));
+		return (cleanup(NULL, ("Coders memory allocation failled.")));
 	while (i < n_coders)
 	{
 		init_coder(sim, &coders[i], i);
