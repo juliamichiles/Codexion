@@ -1,33 +1,113 @@
 # ./codexion 5 3000 200 200 200 10 800 fifo
-# ['unexpected burnout: 3001 3 burned out', 'coder 1: 2/10 compiles', 'coder 2: 1/10 compiles', 'coder 3: 1/10 compiles', 'coder 4: 1/10 compiles', 'coder 5: 1/10 compiles']
-0 1 has taken a dongle
+# ['unexpected burnout: 11003 5 burned out', 'coder 1: 5/10 compiles', 'coder 2: 4/10 compiles', 'coder 3: 5/10 compiles', 'coder 4: 4/10 compiles', 'coder 5: 4/10 compiles']
+1 1 has taken a dongle
 1 1 has taken a dongle
 1 1 is compiling
-1 3 has taken a dongle
-1 3 has taken a dongle
-1 3 is compiling
+2 3 has taken a dongle
+2 3 has taken a dongle
+2 3 is compiling
 201 1 is debugging
-201 3 is debugging
-401 3 is refactoring
+202 3 is debugging
 401 1 is refactoring
+402 3 is refactoring
+1001 5 has taken a dongle
+1001 5 has taken a dongle
+1001 5 is compiling
 1002 2 has taken a dongle
 1002 2 has taken a dongle
 1002 2 is compiling
-1004 5 has taken a dongle
-1004 5 has taken a dongle
-1004 5 is compiling
+1201 5 is debugging
 1202 2 is debugging
-1204 5 is debugging
+1401 5 is refactoring
 1402 2 is refactoring
-1404 5 is refactoring
-2009 4 has taken a dongle
-2009 4 has taken a dongle
-2009 4 is compiling
-2016 1 has taken a dongle
-2016 1 has taken a dongle
-2016 1 is compiling
-2209 4 is debugging
-2216 1 is debugging
-2409 4 is refactoring
-2416 1 is refactoring
-3001 3 burned out
+2001 4 has taken a dongle
+2001 4 has taken a dongle
+2001 4 is compiling
+2002 1 has taken a dongle
+2002 1 has taken a dongle
+2002 1 is compiling
+2201 4 is debugging
+2202 1 is debugging
+2401 4 is refactoring
+2402 1 is refactoring
+3001 3 has taken a dongle
+3001 3 has taken a dongle
+3001 3 is compiling
+3002 5 has taken a dongle
+3002 5 has taken a dongle
+3002 5 is compiling
+3201 3 is debugging
+3202 5 is debugging
+3401 3 is refactoring
+3402 5 is refactoring
+4001 2 has taken a dongle
+4001 2 has taken a dongle
+4001 2 is compiling
+4002 4 has taken a dongle
+4002 4 has taken a dongle
+4002 4 is compiling
+4201 2 is debugging
+4202 4 is debugging
+4401 2 is refactoring
+4402 4 is refactoring
+5001 1 has taken a dongle
+5001 1 has taken a dongle
+5001 1 is compiling
+5002 3 has taken a dongle
+5002 3 has taken a dongle
+5002 3 is compiling
+5201 1 is debugging
+5202 3 is debugging
+5401 1 is refactoring
+5402 3 is refactoring
+6001 5 has taken a dongle
+6001 5 has taken a dongle
+6001 5 is compiling
+6002 2 has taken a dongle
+6002 2 has taken a dongle
+6002 2 is compiling
+6201 5 is debugging
+6202 2 is debugging
+6401 5 is refactoring
+6402 2 is refactoring
+7001 4 has taken a dongle
+7001 4 has taken a dongle
+7001 4 is compiling
+7002 1 has taken a dongle
+7002 1 has taken a dongle
+7002 1 is compiling
+7201 4 is debugging
+7202 1 is debugging
+7401 4 is refactoring
+7402 1 is refactoring
+8002 3 has taken a dongle
+8002 3 has taken a dongle
+8002 3 is compiling
+8002 5 has taken a dongle
+8002 5 has taken a dongle
+8002 5 is compiling
+8202 3 is debugging
+8202 5 is debugging
+8402 3 is refactoring
+8402 5 is refactoring
+9002 2 has taken a dongle
+9002 2 has taken a dongle
+9002 2 is compiling
+9003 4 has taken a dongle
+9003 4 has taken a dongle
+9003 4 is compiling
+9202 2 is debugging
+9203 4 is debugging
+9402 2 is refactoring
+9403 4 is refactoring
+10003 1 has taken a dongle
+10003 1 has taken a dongle
+10003 1 is compiling
+10006 3 has taken a dongle
+10006 3 has taken a dongle
+10006 3 is compiling
+10203 1 is debugging
+10206 3 is debugging
+10403 1 is refactoring
+10406 3 is refactoring
+11003 5 burned out

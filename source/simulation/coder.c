@@ -67,9 +67,13 @@ static int	compile(t_coder *coder)
 
 static void	*one_coder(t_coder *coder)
 {
-	print_status(coder->sim, coder->id, TAKEN_DONGLE);
-	while (!simulation_ended(coder->sim))
-		usleep(500);
+	t_simulation	*sim;
+
+	sim = coder->sim;
+	handle_mutex(&sim->scheduler_mutex, LOCK);
+	while (!simulation_ended(sim))
+		pthread_cond_wait(&sim->scheduler_cond, &sim->scheduler_mutex);
+	handle_mutex(&sim->scheduler_mutex, UNLOCK);
 	return (NULL);
 }
 

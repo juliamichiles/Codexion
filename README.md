@@ -84,15 +84,14 @@ flowchart LR
     D2 --> H2["Per-dongle t_heap"]
     DN --> HN["Per-dongle t_heap"]
 ```
-
 ## Blocking cases handled
 
-- **Deadlock prevention (resource hierarchy):** each coder always takes the dongle with the lower id first, so a circular wait (one of Coffman's conditions) cannot form.
-- **Starvation prevention:** each dongle has its own heap of waiting coders. With `fifo` the oldest request wins. With `edf` the coder with the earliest deadline (`last_compile_start + time_to_burnout`) wins, and arrival order breaks ties.
-- **Cooldown handling:** a released dongle records `avaliable_at_ms`. The next coder in line sleeps with `pthread_cond_timedwait` until the cooldown has passed.
-- **Precise burnout detection:** a separate monitor thread checks every coder about every 1 ms, well inside the 10 ms limit. It sets the stop flag, prints the burnout line, and wakes all sleeping threads.
-- **Log serialization:** every message is printed under `log_mutex`. Once the simulation has stopped, only the burnout message may still be printed.
-- **Single coder:** with only one dongle, the coder takes it, waits, and burns out.
+- **Deadlock prevention (atomic pair acquisition):** a coder can acquire its two neighbouring dongles only when both are free and the coder is first in both dongles’ queues. The pair is marked held together under the scheduler mutex, so a coder never holds one dongle while waiting for the other. `take_dongles` orders the dongles by ID, but acquisition is atomic rather than one-at-a-time.
+- **Scheduler ordering and deterministic startup:** each dongle has a priority queue of waiting coders. With `fifo`, the earliest queued request wins. With `edf`, the earliest deadline (`last_compile_start + time_to_burnout`) wins, with queue arrival order breaking ties. Before coder threads start, the program preloads requests in a fixed order—odd-numbered coders, then even-numbered coders—so the initial queue order does not depend on thread startup timing. Each coder must be first in both queues to acquire its pair.
+- **Cooldown handling:** releasing a dongle records its next available time. A coder that is first in both queues and has both dongles free waits with `pthread_cond_timedwait` until the later cooldown expires; otherwise, it waits for a scheduler-condition broadcast.
+- **Burnout detection:** a separate monitor checks coders approximately every 0,5 ms. When a coder’s time since its last compile start exceeds `time_to_burnout`, the monitor stops the simulation, prints the burnout line, and wakes threads waiting on the scheduler condition variable. Detection timing can also depend on thread scheduling.
+- **Log serialization:** every status message is printed under `log_mutex`. Status printing checks whether the simulation has stopped and suppresses regular messages if it has; the monitor prints the burnout message.
+- **Single coder:** with one coder, there is only one dongle, so the coder cannot acquire a pair. It attepts to take the dongle, but never gets it since, the implementation only allows to acquire both at once, then waits for the monitor to detect burnout.
 
 ## Thread synchronization mechanisms
 

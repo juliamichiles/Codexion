@@ -1,34 +1,33 @@
 # ./codexion 5 3000 200 200 200 10 800 edf
 # ['unexpected burnout: 3002 3 burned out', 'coder 1: 2/10 compiles', 'coder 2: 1/10 compiles', 'coder 3: 1/10 compiles', 'coder 4: 1/10 compiles', 'coder 5: 1/10 compiles']
-2 1 has taken a dongle
-2 1 has taken a dongle
-2 1 is compiling
-2 3 has taken a dongle
-2 3 has taken a dongle
-2 3 is compiling
-202 3 is debugging
-202 1 is debugging
-402 1 is refactoring
-402 3 is refactoring
+0 1 has taken a dongle
+1 1 has taken a dongle
+1 1 is compiling
+1 3 has taken a dongle
+1 3 has taken a dongle
+1 3 is compiling
+201 3 is debugging
+201 1 is debugging
+401 3 is refactoring
+401 1 is refactoring
 1002 2 has taken a dongle
 1002 2 has taken a dongle
 1002 2 is compiling
-1002 5 has taken a dongle
-1002 5 has taken a dongle
-1002 5 is compiling
+1003 5 has taken a dongle
+1003 5 has taken a dongle
+1003 5 is compiling
 1202 2 is debugging
-1202 5 is debugging
-1402 5 is refactoring
+1203 5 is debugging
 1402 2 is refactoring
-2002 1 has taken a dongle
-2002 1 has taken a dongle
-2002 1 is compiling
-2002 4 has taken a dongle
-2002 4 has taken a dongle
-2002 4 is compiling
-2202 4 is debugging
-2202 1 is debugging
-2402 4 is refactoring
-2402 1 is refactoring
-3002 3 has taken a dongle
+1403 5 is refactoring
+2003 4 has taken a dongle
+2003 4 has taken a dongle
+2003 4 is compiling
+2004 1 has taken a dongle
+2004 1 has taken a dongle
+2004 1 is compiling
+2203 4 is debugging
+2204 1 is debugging
+2403 4 is refactoring
+2404 1 is refactoring
 3002 3 burned out
