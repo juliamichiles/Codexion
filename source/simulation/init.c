@@ -27,17 +27,6 @@ static int	init_dongle(t_dongle *dongle, int policy, int cap, int i)
 	dongle->heap = init_heap(cap, policy);
 	if (!dongle->heap)
 		return (1);
-	if (handle_mutex(&dongle->mutex, INIT) != 0)
-	{
-		heap_destroy(dongle->heap);
-		return (1);
-	}
-	if (pthread_cond_init(&dongle->cond, NULL) != 0)
-	{
-		handle_mutex(&dongle->mutex, DESTROY);
-		heap_destroy(dongle->heap);
-		return (1);
-	}
 	return (0);
 }
 

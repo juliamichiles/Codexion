@@ -58,8 +58,6 @@ typedef enum e_coder_state
 typedef struct s_dongle
 {
 	int				id;
-	t_mtx			mutex;
-	pthread_cond_t	cond;
 	bool			held;
 	t_llong			next_ticket;
 	t_llong			avaliable_at_ms;
