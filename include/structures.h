@@ -57,12 +57,12 @@ typedef enum e_coder_state
 /* next_ticket is the request order for fifo, I hate this name...*/
 typedef struct s_dongle
 {
-	int				id;
-	bool			held;
-	t_llong			next_ticket;
-	t_llong			avaliable_at_ms;
-	t_heap			*heap;
-}					t_dongle;
+	int			id;
+	bool		held;
+	t_llong		next_ticket;
+	t_llong		avaliable_at_ms;
+	t_heap		*heap;
+}				t_dongle;
 
 typedef struct s_coder
 {
@@ -77,7 +77,7 @@ typedef struct s_coder
 	bool			queued;
 	int				compile_count;
 
-		t_simulation	*sim;
+	t_simulation	*sim;
 }	t_coder;
 
 struct s_simulation

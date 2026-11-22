@@ -129,8 +129,8 @@ flowchart LR
     CODER -->|"wait / timed wait"| COND
 
 ```
-- ** `pthread_mutex_t` (shared scheduler mutex):** protects both dongles’ shared queue state, held flags, cooldown timestamps, and access to the per-dongle waiting heaps. Coder pair acquisition is handled under this mutex: a coder queues on both dongles, verifies that it is first in both heaps and that both dongles are free, then marks both as held together.
-- ** `pthread_cond_t` (shared scheduler condition variable):** coders wait on `scheduler_cond instead of busy-waiting`. Dongle releases and `wake_everyone` broadcast on this condition variable, while `pthread_cond_timedwait` handles waiting until a dongle cooldown has expired.
+- `pthread_mutex_t` (shared scheduler mutex): protects both dongles’ shared queue state, held flags, cooldown timestamps, and access to the per-dongle waiting heaps. Coder pair acquisition is handled under this mutex: a coder queues on both dongles, verifies that it is first in both heaps and that both dongles are free, then marks both as held together.
+- `pthread_cond_t` (shared scheduler condition variable): coders wait on `scheduler_cond instead of busy-waiting`. Dongle releases and `wake_everyone` broadcast on this condition variable, while `pthread_cond_timedwait` handles waiting until a dongle cooldown has expired.
 - `state_mutex:` protects the stopped flag, each coder’s `last_compile_start` and `compile_count`, and `finished_coders`. All access goes through the `get_*/set_*` helpers or explicit lock/unlock calls when multiple operations must be performed together.
 - `log_mutex`: serializes status output and prevents messages from interleaving. Normal status messages are suppressed once the simulation has stopped, while the burnout message is still allowed to print.
 - **Coder ↔ monitor communication:** the monitor reads coder state under `state_mutex`. To stop the simulation, it sets stopped under that mutex, prints the burnout message, and then broadcasts on `scheduler_cond` through `wake_everyone` so waiting coder threads can exit.
