@@ -1,0 +1,32 @@
+./codexion 5 3000 200 200 200 10 800 lifo
+0 2 has taken a dongle
+0 2 has taken a dongle
+0 2 is compiling
+1 4 has taken a dongle
+1 4 has taken a dongle
+1 4 is compiling
+201 2 is debugging
+201 4 is debugging
+401 4 is refactoring
+401 2 is refactoring
+1002 2 has taken a dongle
+1002 2 has taken a dongle
+1002 2 is compiling
+1002 4 has taken a dongle
+1002 4 has taken a dongle
+1002 4 is compiling
+1202 4 is debugging
+1202 2 is debugging
+1402 2 is refactoring
+1402 4 is refactoring
+2013 2 has taken a dongle
+2013 2 has taken a dongle
+2013 2 is compiling
+2013 4 has taken a dongle
+2013 4 has taken a dongle
+2013 4 is compiling
+2213 2 is debugging
+2213 4 is debugging
+2413 2 is refactoring
+2413 4 is refactoring
+3001 1 burned out

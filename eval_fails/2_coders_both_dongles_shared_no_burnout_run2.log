@@ -1,0 +1,2 @@
+# ./codexion 2 2000 200 200 200 5 0 fifo
+# ['coder 1: 0/5 compiles', 'coder 2: 0/5 compiles']

@@ -1,0 +1,32 @@
+./codexion 5 3000 200 200 200 10 800 fifo
+1 1 has taken a dongle
+1 1 has taken a dongle
+1 1 is compiling
+1 3 has taken a dongle
+1 3 has taken a dongle
+1 3 is compiling
+201 1 is debugging
+201 3 is debugging
+401 1 is refactoring
+401 3 is refactoring
+1011 5 has taken a dongle
+1011 5 has taken a dongle
+1011 5 is compiling
+1023 2 has taken a dongle
+1023 2 has taken a dongle
+1023 2 is compiling
+1211 5 is debugging
+1223 2 is debugging
+1411 5 is refactoring
+1423 2 is refactoring
+2011 4 has taken a dongle
+2011 4 has taken a dongle
+2011 4 is compiling
+2023 1 has taken a dongle
+2023 1 has taken a dongle
+2023 1 is compiling
+2211 4 is debugging
+2223 1 is debugging
+2411 4 is refactoring
+2423 1 is refactoring
+3002 3 burned out
