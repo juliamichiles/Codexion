@@ -51,38 +51,38 @@ Other rules: `make clean`, `make fclean` and `make re`. Builds with `cc -Wall -W
 ## Project's structure:
 
 ```mermaid
-flowchart LR
-    SIM["t_simulation"]
-    ARGS["t_args<br/>timings, coder count,<br/>compile quota, scheduler"]
-    CODERS["t_coder array"]
-    DONGLES["t_dongle array"]
+flowchart TD
+    Main["main()"] --> Parse["Parse arguments"]
+    Parse --> Init["Initialize simulation"]
+    Init --> Coders["Create coder threads"]
+    Init --> Monitor["Create monitor thread"]
+    Init --> Dongles["Initialize dongles"]
+    Dongles --> Queues["Create per-dongle queues"]
+    Init --> Preload["Preload initial requests"]
+    Preload --> Queues
 
-    SIM --> ARGS
-    SIM --> CODERS
-    SIM --> DONGLES
+    Coders --> Request["Request neighboring dongles"]
+    Request --> Queue["Scheduler: FIFO or EDF"]
+    Queue --> CanAcquire{"Both dongles free\nand coder is first in both?"}
 
-    CODERS --> C1["Coder 1"]
-    CODERS --> C2["Coder 2"]
-    CODERS --> CN["... Coder N"]
+    CanAcquire -->|"No"| Wait["Wait on scheduler condition"]
+    Wait --> Queue
+    CanAcquire -->|"Yes"| Acquire["Acquire both dongles"]
+    Acquire --> Compile["Compile"]
+    Compile --> Release["Release dongles"]
+    Release --> Cooldown["Start dongle cooldown"]
+    Cooldown --> Wait
 
-    DONGLES --> D1["Dongle 1"]
-    DONGLES --> D2["Dongle 2"]
-    DONGLES --> DN["... Dongle N"]
+    Release --> Debug["Debug"]
+    Debug --> Refactor["Refactor"]
+    Refactor --> Request
 
-    C1 -->|"left_dongle / right_dongle"| D1
-    C1 -->|"neighbor"| D2
-    C2 -->|"neighbors"| D2
-    C2 -->|"neighbor"| DN
-    CN -->|"neighbors; circular arrangement"| DN
-    CN -->|"neighbor"| D1
+    Monitor --> Check{"Coder exceeded\nburnout timeout?"}
+    Check -->|"Yes"| Stop["Stop simulation"]
+    Stop --> Broadcast["Broadcast scheduler condition"]
+    Broadcast --> Coders
+    Check -->|"No"| Monitor
 
-    C1 -. "sim pointer" .-> SIM
-    C2 -. "sim pointer" .-> SIM
-    CN -. "sim pointer" .-> SIM
-
-    D1 --> H1["Per-dongle t_heap"]
-    D2 --> H2["Per-dongle t_heap"]
-    DN --> HN["Per-dongle t_heap"]
 ```
 ## Blocking cases handled
 
@@ -94,6 +94,41 @@ flowchart LR
 - **Single coder:** with one coder, there is only one dongle, so the coder cannot acquire a pair. It attepts to take the dongle, but never gets it since, the implementation only allows to acquire both at once, then waits for the monitor to detect burnout.
 
 ## Thread synchronization mechanisms
+```mermaid
+flowchart LR
+    STATE["state_mutex"]
+    STATE --> STOP["stopped flag"]
+    STATE --> COUNT["compile_count"]
+    STATE --> FINISHED["finished_coders"]
+    STATE --> LAST["last_compile_start"]
+
+    SCHED["scheduler_mutex"]
+    SCHED --> HELD["dongle held flags"]
+    SCHED --> COOL["available_at_ms cooldown timestamps"]
+    SCHED --> QUEUES["per-dongle request heaps"]
+    SCHED --> QUEUED["queued request state"]
+
+    COND["scheduler_cond"]
+    COND -. "release broadcast" .-> WAIT["coder waits"]
+    COND -. "stop broadcast" .-> WAIT
+    COND -. "waits until cooldown" .-> TIMED["timed wait"]
+    COND --> SCHED
+
+    LOG["log_mutex"]
+    LOG --> OUTPUT["serialized printf output"]
+
+    CODER["Coder thread"]
+    MONITOR["Monitor thread"]
+
+    CODER -->|"lock"| SCHED
+    CODER -->|"lock"| STATE
+    CODER -->|"lock"| LOG
+    MONITOR -->|"lock"| STATE
+    MONITOR -->|"lock"| LOG
+    MONITOR -->|"broadcast"| COND
+    CODER -->|"wait / timed wait"| COND
+
+```
 - ** `pthread_mutex_t` (shared scheduler mutex):** protects both dongles’ shared queue state, held flags, cooldown timestamps, and access to the per-dongle waiting heaps. Coder pair acquisition is handled under this mutex: a coder queues on both dongles, verifies that it is first in both heaps and that both dongles are free, then marks both as held together.
 - ** `pthread_cond_t` (shared scheduler condition variable):** coders wait on `scheduler_cond instead of busy-waiting`. Dongle releases and `wake_everyone` broadcast on this condition variable, while `pthread_cond_timedwait` handles waiting until a dongle cooldown has expired.
 - `state_mutex:` protects the stopped flag, each coder’s `last_compile_start` and `compile_count`, and `finished_coders`. All access goes through the `get_*/set_*` helpers or explicit lock/unlock calls when multiple operations must be performed together.
