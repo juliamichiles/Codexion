@@ -94,19 +94,13 @@ flowchart LR
 - **Single coder:** with one coder, there is only one dongle, so the coder cannot acquire a pair. It attepts to take the dongle, but never gets it since, the implementation only allows to acquire both at once, then waits for the monitor to detect burnout.
 
 ## Thread synchronization mechanisms
-
-- **`pthread_mutex_t` (one per dongle):** protects the dongle's `held` flag, cooldown timestamp and waiting heap. A coder pushes its request and checks "am I at the top of the heap, is the dongle free, has the cooldown passed" under this mutex, so two coders can never take the same dongle.
-- **`pthread_cond_t` (one per dongle):** coders wait on it instead of busy-waiting. `release_dongle` and `wake_everyone` broadcast on it, and `pthread_cond_timedwait` handles the cooldown.
-- **`state_mutex`:** protects the `stopped` flag, each coder's `last_compile_start` and `compile_count`, and `finished_coders`. All access goes through the `get_*`/`set_*` helpers or explicit lock/unlock, so the monitor never reads half-updated values.
-- **`log_mutex`:** serializes output so lines never interleave.
-- **Coder ↔ monitor communication:** the monitor reads coder state under `state_mutex`. To stop the simulation it sets `stopped` under that same mutex and then broadcasts on every dongle's condition variable, so coders blocked in `pthread_cond_wait` wake up, see the flag and exit.
-- **Wrappers around the POSIX API:** Raw `pthread_*` calls are kept out of the main code and centralised in wrapper functions. Mutex operations go through `handle_mutex(mutex, LOCK | UNLOCK | INIT | DESTROY)`, while thread operations use `handle_thread(thread, routine, data, CREATE | JOIN)` (`wrappers.c`). Each call site specifies the desired operation through a `t_op` enum, keeping the code concise and readable while preserving the original POSIX return codes, allowing errors to be detected and handled by the caller.
-Shared values are accessed through small helper functions (`get_bool`, `set_bool`, `get_llong` and `set_llong` in `get_set.c`), which acquire the relevant mutex, perform the read or write, and release the mutex internally. This centralises synchronisation and prevents callers from accidentally leaving a mutex locked, including through early returns.
-For critical sections involving multiple operations, such as `acquire_dongle()`, explicit `handle_mutex(..., LOCK/UNLOCK)` calls are used instead. Every exit path releases the mutex before returning.
-- No custom event implementation is used.
-
-
-## Resources
+- ** `pthread_mutex_t` (shared scheduler mutex):** protects both dongles’ shared queue state, held flags, cooldown timestamps, and access to the per-dongle waiting heaps. Coder pair acquisition is handled under this mutex: a coder queues on both dongles, verifies that it is first in both heaps and that both dongles are free, then marks both as held together.
+- ** `pthread_cond_t` (shared scheduler condition variable):** coders wait on `scheduler_cond instead of busy-waiting`. Dongle releases and `wake_everyone` broadcast on this condition variable, while `pthread_cond_timedwait` handles waiting until a dongle cooldown has expired.
+- `state_mutex:` protects the stopped flag, each coder’s `last_compile_start` and `compile_count`, and `finished_coders`. All access goes through the `get_*/set_*` helpers or explicit lock/unlock calls when multiple operations must be performed together.
+- `log_mutex`: serializes status output and prevents messages from interleaving. Normal status messages are suppressed once the simulation has stopped, while the burnout message is still allowed to print.
+- **Coder ↔ monitor communication:** the monitor reads coder state under `state_mutex`. To stop the simulation, it sets stopped under that mutex, prints the burnout message, and then broadcasts on `scheduler_cond` through `wake_everyone` so waiting coder threads can exit.
+- **Wrappers around the POSIX API:** raw pthread_* calls are kept out of the main code and centralized in wrapper functions. Mutex operations go through `handle_mutex(mutex, LOCK | UNLOCK | INIT | DESTROY)`, thread operations use `handle_thread`, and `get_current_time` centralizes time retrieval.
+- Shared values are accessed through small helper functions (`get_bool`, `set_bool`, `get_llong`, and `set_llong`), which acquire the relevant mutex, perform the read or write, and release the mutex. For critical sections involving multiple operations, such as `acquire_dongles`, explicit `handle_mutex(..., LOCK/UNLOCK)` calls are used instead. Every exit path releases the mutex before returning.
 
 ### POSIX threads
 - https://medium.com/@techdhaba.training/posix-threads-pthreads-the-simplest-way-to-understand-real-multithreading-in-c-c2f591ab7a03
