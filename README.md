@@ -137,6 +137,8 @@ flowchart LR
 - **Wrappers around the POSIX API:** raw pthread_* calls are kept out of the main code and centralized in wrapper functions. Mutex operations go through `handle_mutex(mutex, LOCK | UNLOCK | INIT | DESTROY)`, thread operations use `handle_thread`, and `get_current_time` centralizes time retrieval.
 - Shared values are accessed through small helper functions (`get_bool`, `set_bool`, `get_llong`, and `set_llong`), which acquire the relevant mutex, perform the read or write, and release the mutex. For critical sections involving multiple operations, such as `acquire_dongles`, explicit `handle_mutex(..., LOCK/UNLOCK)` calls are used instead. Every exit path releases the mutex before returning.
 
+## Resources
+---
 ### POSIX threads
 - https://medium.com/@techdhaba.training/posix-threads-pthreads-the-simplest-way-to-understand-real-multithreading-in-c-c2f591ab7a03
 - https://www.youtube.com/watch?v=d9s_d28yJq0&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&pp=0gcJCR0Ga94AFGB0
