@@ -9,7 +9,7 @@ Compiling requires holding both neighbouring dongles at once. A coder who doesn'
 If two or more coders request the same dongle, it should be granted according to a scheduler (`fifo` or `edf`) backed by a hand-written priority queue (heap).
 
 ## Tests
-`tests` directory contains a set of automated tests, detailed in itsown README.
+`tests` directory contains a set of automated tests, detailed in its own README.
 
 ## Instructions
 
